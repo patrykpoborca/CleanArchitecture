@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "io.patrykpoborca.cleanarchitecture"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        encoding "UTF-8"
+    }
+}
+
+dependencies {
+    dependencies {
+        apt 'com.google.dagger:dagger-compiler:2.0'
+        compile fileTree(include: ['*.jar'], dir: 'libs')
+        compile 'com.android.support:appcompat-v7:22.2.1'
+        compile 'com.google.dagger:dagger:2.0'
+        provided 'org.glassfish:javax.annotation:10.0-b28'
+        compile 'com.jakewharton:butterknife:7.0.1'
+        //needed to resolve compilation errors, thanks to tutplus.org for finding the dependency
+        // http://stackoverflow.com/questions/27036933/how-to-set-up-dagger-dependency-injection-from-scratch-in-android-project
+        //test compiles
+        androidTestApt 'com.google.dagger:dagger-compiler:2.0'
+        androidTestCompile 'com.google.dagger:dagger:2.0'
+        androidTestCompile 'junit:junit:4.12'
+        androidTestCompile 'org.mockito:mockito-core:1.+'
+        androidTestCompile('com.android.support.test:runner:0.3') {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        }
+        androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+        androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    }
+}
