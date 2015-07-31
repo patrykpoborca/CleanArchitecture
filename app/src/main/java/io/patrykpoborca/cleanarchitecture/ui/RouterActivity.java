@@ -8,7 +8,8 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.R;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVPBase;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVP;
+import io.patrykpoborca.cleanarchitecture.ui.MVPIC.MainActivityMVPIC;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -38,7 +39,7 @@ public class RouterActivity extends AppCompatActivity {
                 intent = new Intent(RouterActivity.this, MainActivityStupid.class);
             }
             else if(view == mvpicActivity){
-//                intent = new Intent(RouterActivity.this, mvpicActivity.class);
+                intent = new Intent(RouterActivity.this, MainActivityMVPIC.class);
             }
             else if(view == mvvmActivity){
 //                intent = new Intent(RouterActivity.this, MainActivityStupid.class);
@@ -47,7 +48,7 @@ public class RouterActivity extends AppCompatActivity {
 //                intent = new Intent(RouterActivity.this, MainActivityStupid.class);
             }
             else if(view == mvpActivity){
-                intent = new Intent(RouterActivity.this, MainActivityMVPBase.class);
+                intent = new Intent(RouterActivity.this, MainActivityMVP.class);
             }
 
             startActivity(intent);
