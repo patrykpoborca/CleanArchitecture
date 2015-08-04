@@ -13,17 +13,14 @@ public class NetworkModule {
 
     /*
     This is not a linear progression! None of these depend on each other!
-
     @Provides
     OKHttp providesOkHTTP(){
         return new OKHttp();
     }
-
     @Provides
     Retrofit providesRetrofit(){
         return new Retrofit();
     }
-
     */
 
     @Provides

@@ -5,8 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,14 +40,27 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Bind(R.id.past_tweets_container)
     LinearLayout pastTweetContainer;
 
+    @Bind(R.id.user_login_button)
+    Button loginButton;
+
+    @Bind(R.id.user_name)
+    TextView userNameTextView;
+
+    @Bind(R.id.user_password)
+    TextView userPasswordTextView;
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if(view == fetchLastTwoButton){
-                getPresenter().fetchTwoTweets();
+                getPresenter().fetchPreviousTweets();
             }
             else if(view == fetchTweetButton){
-                getPresenter().fetchTweet();
+                getPresenter().fetchCurrentTweet();
+            }
+            if(view == loginButton){
+                getPresenter().toggleLogin(userNameTextView.getText().toString(),
+                                    userPasswordTextView.getText().toString());
             }
         }
     };
@@ -65,7 +79,7 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Override
     protected MainMVPPresenter getPresenter() {
         if(presenter == null){
-            //dagger stuff!
+
             DaggerActivityInjectorComponent.builder().twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
                                 .build()
                                 .inject(this);
@@ -80,9 +94,8 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     }
 
     @Override
-    public void displayPreviousTweets(ArrayList<String> tweets) {
+    public void displayPreviousTweets(List<String> tweets) {
         pastTweetContainer.removeAllViews(); //clear container...
-
         for(int i= 0;  i < tweets.size(); i++){
             TextView text = new TextView(this);
             text.setText(tweets.get(i));
@@ -93,5 +106,15 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Override
     protected void registerViewToPresenter() {
         getPresenter().registerView(this);
+    }
+
+    @Override
+    public void displayToast(String toast) {
+        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setUserButtonText(String text) {
+        this.loginButton.setText(text);
     }
 }

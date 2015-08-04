@@ -1,11 +1,14 @@
 package io.patrykpoborca.cleanarchitecture.network;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -20,13 +23,16 @@ public class TwitterApi {
         this.retrofit = retro;
     }
 
-    public String getTweet(){
+    public Observable<String> getTweet(){
         String tweet = "Someone Tweeted this -> " + retrofit.parseString();
         localDataCache.saveTweet(tweet);
-        return tweet;
+
+        return Observable.just(tweet)
+                .delay(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public ArrayList<String> fetchXrecents(int some){
+    public Observable<String> fetchXrecents(int some){
         ArrayList<String> someTweets = new ArrayList(some);
         int size = some > localDataCache.fetchRecentTweets().size() ? localDataCache.fetchRecentTweets().size() : some;
 
@@ -34,6 +40,8 @@ public class TwitterApi {
             someTweets.add(localDataCache.fetchRecentTweets().get(localDataCache.fetchRecentTweets().size() - i -1));
         }
 
-        return  someTweets;
+        return Observable.from(someTweets)
+                .delay(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

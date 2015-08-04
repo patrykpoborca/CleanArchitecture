@@ -15,4 +15,8 @@ public class UserProfile {
     public String getFormattedCredentials(){
         return "User Profile = " + username + " " + password;
     }
+
+    public String getUserName() {
+        return username;
+    }
 }

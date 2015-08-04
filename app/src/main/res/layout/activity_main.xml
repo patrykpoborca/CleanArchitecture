@@ -48,5 +48,22 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Fetch Last two Tweets!"/>
+
+
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="UserName:"/>
+        <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:id="@+id/user_name"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Password:"/>
+        <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:id="@+id/user_password"
+            android:inputType="textWebPassword"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log User In"
+            android:id="@+id/user_login_button"/>
     </LinearLayout>
 </ScrollView>

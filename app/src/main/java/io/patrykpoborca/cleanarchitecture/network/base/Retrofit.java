@@ -23,11 +23,10 @@ public class Retrofit {
 
     public Observable<UserProfile> performRequest(String username, String password) {
 
-        UserProfile userProfile = null;
-        Observable<UserProfile> observable = Observable.just(userProfile)
-                .observeOn(AndroidSchedulers.mainThread())
+
+        return Observable.just(new UserProfile(username, password))
                 .subscribeOn(Schedulers.io())
-                .delay(3, TimeUnit.SECONDS);
-        return observable;
+                .delay(3, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

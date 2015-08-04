@@ -1,28 +1,29 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC.base;
+package io.patrykpoborca.cleanarchitecture.ui.MVVM.base;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import io.patrykpoborca.cleanarchitecture.ui.BaseCAActivity;
 
-public abstract class BasePresenterActivityMVPIC<T extends BasePresenterMVPIC> extends BaseCAActivity{
+public abstract class BaseViewModelActivity<T extends BaseViewModel> extends BaseCAActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPresenter();
+        getViewModel();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getPresenter().onAttach();
+        getViewModel().onAttach();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        getPresenter().onDettach();
+        getViewModel().onDettach();
     }
 
-    protected abstract T getPresenter();
+    protected abstract T getViewModel();
 }

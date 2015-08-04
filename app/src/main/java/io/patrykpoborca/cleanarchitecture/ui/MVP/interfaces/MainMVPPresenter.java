@@ -7,7 +7,9 @@ import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.Presenter;
  */
 public interface MainMVPPresenter extends Presenter<MainMVPPView> {
 
-    public void fetchTweet();
+    public void fetchCurrentTweet();
 
-    public void fetchTwoTweets();
+    public void fetchPreviousTweets();
+
+    public void toggleLogin(String userName, String userPassword);
 }

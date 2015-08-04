@@ -1,8 +1,9 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
+import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -10,5 +11,9 @@ import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 public interface MainMVPPView extends PView {
     public void displayFetchedTweet(String tweet);
 
-    public void displayPreviousTweets(ArrayList<String> list);
+    public void displayPreviousTweets(List<String> list);
+
+    public void displayToast(String toast);
+
+    public void setUserButtonText(String text);
 }

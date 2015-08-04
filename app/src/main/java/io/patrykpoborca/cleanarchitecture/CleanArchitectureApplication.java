@@ -9,8 +9,6 @@ import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerBaseComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerTwitterComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.TwitterComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.ApplicationModule;
-import io.patrykpoborca.cleanarchitecture.dagger.modules.LocalModule;
-import io.patrykpoborca.cleanarchitecture.dagger.modules.NetworkModule;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.TwitterModule;
 
 /**

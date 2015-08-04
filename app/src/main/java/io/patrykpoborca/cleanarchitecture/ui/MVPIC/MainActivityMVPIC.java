@@ -7,19 +7,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
-import io.patrykpoborca.cleanarchitecture.dagger.components.ActivityInjectorComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.dagger.modules.TwitterModule;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.BasePresenterActivity;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.base.BasePresenterActivityMVPIC;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.interfaces.MainActivityMVPICPview;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.interfaces.MainMVPICPresenter;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -55,12 +54,12 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         public void onClick(View view) {
             if(view == fetchTweetButton){
                 registerSubscription(
-                getPresenter().fetchCurrentTweet().subscribe(s -> currentTweetTextView.setText(s + " hihihi")));
+                        getPresenter().fetchCurrentTweet().subscribe(s -> currentTweetTextView.setText(s)));
             }
             else if(view == fetchLastTwoButton){
                 pastTweetContainer.removeAllViews(); //clear container...
                 registerSubscription(
-                        getPresenter().fetchPreviousTweets().subscribe(s -> addTweetToList(s))
+                        getPresenter().fetchPreviousTweets().subscribe(MainActivityMVPIC.this::displayTweets)
                 );
             }
             else if(view == loginButton){
@@ -75,17 +74,17 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_mvpci);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fetchLastTwoButton.setOnClickListener(onClickListener);
         fetchTweetButton.setOnClickListener(onClickListener);
         loginButton.setOnClickListener(onClickListener);
     }
 
-    @Override
-    protected void registerViewToPresenter() {
-        getPresenter().registerView(this);
-    }
+//    @Override
+//    protected void registerViewToPresenter() {
+//        getPresenter().registerView(this);
+//    }
 
     @Override
     protected MainMVPICPresenter getPresenter() {
@@ -106,9 +105,13 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         Toast.makeText(this, "We have exceeded 3 tweets on backend", Toast.LENGTH_LONG).show();
     }
 
-    private void addTweetToList(String tweet){
-        TextView textView = new TextView(this);
-        textView.setText(tweet);
-        pastTweetContainer.addView(textView);
+    private void displayTweets(List<String> list) {
+        pastTweetContainer.removeAllViews();
+
+        for(int i= 0; i < list.size(); i++){
+            TextView textView = new TextView(this);
+            textView.setText(list.get(i));
+            pastTweetContainer.addView(textView);
+        }
     }
 }

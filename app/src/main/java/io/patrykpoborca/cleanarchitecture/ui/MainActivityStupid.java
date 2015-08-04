@@ -1,15 +1,13 @@
 package io.patrykpoborca.cleanarchitecture.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -42,15 +40,21 @@ public class MainActivityStupid extends AppCompatActivity {
         public void onClick(View view) {
             if(view == fetchLastTwoButton){
                 pastTweetContainer.removeAllViews(); //clear container...
-                ArrayList<String> tweets =  twitterApi.fetchXrecents(2);
-                for(int i= 0;  i < tweets.size(); i++){
-                    TextView text = new TextView(MainActivityStupid.this);
-                    text.setText(tweets.get(i));
-                    pastTweetContainer.addView(text);
-                }
+                twitterApi.fetchXrecents(2)
+                        .subscribe(
+                                tweet -> {
+                                    TextView text = new TextView(MainActivityStupid.this);
+                                    text.setText(tweet);
+                                    pastTweetContainer.addView(text);
+
+                                }
+                        );
+
             }
             else if(view == fetchTweetButton){
-                currentTweetTextView.setText(twitterApi.getTweet());
+                twitterApi.getTweet()
+                        .subscribe(s -> currentTweetTextView.setText(s));
+
             }
         }
     };
