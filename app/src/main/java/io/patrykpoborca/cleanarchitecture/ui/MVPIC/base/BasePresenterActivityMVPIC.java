@@ -3,13 +3,14 @@ package io.patrykpoborca.cleanarchitecture.ui.MVPIC.base;
 import android.os.Bundle;
 
 import io.patrykpoborca.cleanarchitecture.ui.BaseCAActivity;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 
-public abstract class BasePresenterActivityMVPIC<T extends BasePresenterMVPIC> extends BaseCAActivity{
+public abstract class BasePresenterActivityMVPIC<T extends BasePresenterMVPIC> extends BaseCAActivity implements PView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPresenter();
+        getPresenter().registerPresenter(this);
     }
 
     @Override

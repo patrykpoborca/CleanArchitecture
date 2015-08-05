@@ -5,7 +5,7 @@ import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.Presenter;
 /**
  * Created by Patryk on 7/28/2015.
  */
-public interface MainMVPPresenter extends Presenter<MainMVPPView> {
+    public interface MainMVPPresenter extends Presenter<MainMVPPView> {
 
     public void fetchCurrentTweet();
 

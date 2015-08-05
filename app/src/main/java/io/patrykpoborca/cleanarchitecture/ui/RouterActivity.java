@@ -10,6 +10,7 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVP;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.MainActivityMVPIC;
+import io.patrykpoborca.cleanarchitecture.ui.MVVM.MainActivityMVVM;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -42,7 +43,7 @@ public class RouterActivity extends AppCompatActivity {
                 intent = new Intent(RouterActivity.this, MainActivityMVPIC.class);
             }
             else if(view == mvvmActivity){
-//                intent = new Intent(RouterActivity.this, MainActivityStupid.class);
+                intent = new Intent(RouterActivity.this, MainActivityMVVM.class);
             }
             else if(view == mvvmiActivity){
 //                intent = new Intent(RouterActivity.this, MainActivityStupid.class);

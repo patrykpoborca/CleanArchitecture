@@ -1,6 +1,7 @@
 package io.patrykpoborca.cleanarchitecture.network;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -32,15 +33,15 @@ public class TwitterApi {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<String> fetchXrecents(int some){
-        ArrayList<String> someTweets = new ArrayList(some);
+    public Observable<List<String>> fetchXrecents(int some){
+        List<String> someTweets = new ArrayList(some);
         int size = some > localDataCache.fetchRecentTweets().size() ? localDataCache.fetchRecentTweets().size() : some;
 
         for(int i= 0; i < size; i++){
             someTweets.add(localDataCache.fetchRecentTweets().get(localDataCache.fetchRecentTweets().size() - i -1));
         }
 
-        return Observable.from(someTweets)
+        return Observable.just(someTweets)
                 .delay(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }

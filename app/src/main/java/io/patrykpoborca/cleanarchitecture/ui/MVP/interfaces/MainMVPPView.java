@@ -13,7 +13,9 @@ public interface MainMVPPView extends PView {
 
     public void displayPreviousTweets(List<String> list);
 
-    public void displayToast(String toast);
-
     public void setUserButtonText(String text);
+
+    public void toggleProgressbar(boolean show);
+
+    void toggleLoginContainer(boolean b);
 }

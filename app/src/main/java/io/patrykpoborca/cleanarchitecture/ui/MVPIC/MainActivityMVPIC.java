@@ -1,7 +1,9 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVPIC;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,9 +18,11 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.base.BasePresenterActivity;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.base.BasePresenterActivityMVPIC;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.interfaces.MainActivityMVPICPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.util.Utility;
+import rx.internal.util.UtilityFunctions;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -46,6 +50,16 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     @Bind(R.id.user_login_button)
     Button loginButton;
 
+    @Bind(R.id.user_name)
+    TextView userNameTextView;
+
+    @Bind(R.id.user_password)
+    TextView userPasswordTextView;
+
+    @Bind(R.id.container)
+    ViewGroup container;
+
+
     @Inject
     MainMVPICPresenter presenter;
 
@@ -63,10 +77,7 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
                 );
             }
             else if(view == loginButton){
-                registerSubscription(
-                        getPresenter().logUserIn()
-                                .subscribe(user -> Toast.makeText(MainActivityMVPIC.this, user.getFormattedCredentials(), Toast.LENGTH_SHORT).show())
-                );
+                getPresenter().toggleLogin(userNameTextView.getText().toString(), userPasswordTextView.getText().toString());
             }
         }
     };
@@ -79,12 +90,8 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         fetchLastTwoButton.setOnClickListener(onClickListener);
         fetchTweetButton.setOnClickListener(onClickListener);
         loginButton.setOnClickListener(onClickListener);
+        setTitle("MVPIC activity");
     }
-
-//    @Override
-//    protected void registerViewToPresenter() {
-//        getPresenter().registerView(this);
-//    }
 
     @Override
     protected MainMVPICPresenter getPresenter() {
@@ -101,8 +108,8 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     }
 
     @Override
-    public void weHaveExceeded3TweetsOnBackend() {
-        Toast.makeText(this, "We have exceeded 3 tweets on backend", Toast.LENGTH_LONG).show();
+    public void displayToast(String toast) {
+        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
     }
 
     private void displayTweets(List<String> list) {
@@ -113,5 +120,24 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
             textView.setText(list.get(i));
             pastTweetContainer.addView(textView);
         }
+    }
+
+    @Override
+    public void toggleProgressBar(boolean show) {
+        Utility.toggleProgressbar(this, show);
+    }
+
+
+    @Override
+    public void loggedIn(UserProfile profile) {
+        Toast.makeText(this, (profile.getFormattedCredentials() + " Logged in"), Toast.LENGTH_SHORT).show();
+        loginButton.setText("Log " + profile.getUserName() + " out");
+        container.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void loggedOut() {
+        loginButton.setText(R.string.log_user_in);
+        container.setVisibility(View.VISIBLE);
     }
 }

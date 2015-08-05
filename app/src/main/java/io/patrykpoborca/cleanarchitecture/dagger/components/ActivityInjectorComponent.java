@@ -18,4 +18,6 @@ public interface ActivityInjectorComponent {
     void inject(MainActivityMVP activityMVP);
 
     void inject(MainActivityMVVM activityMVVM);
+
+    void inject(MainActivityMVPIC activityMVPIC);
 }

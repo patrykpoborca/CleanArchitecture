@@ -27,6 +27,8 @@
         </activity>
 
         <activity android:name=".ui.MVPIC.MainActivityMVPIC"/>
+
+        <activity android:name=".ui.MVVM.MainActivityMVVM"/>
     </application>
 
 </manifest>

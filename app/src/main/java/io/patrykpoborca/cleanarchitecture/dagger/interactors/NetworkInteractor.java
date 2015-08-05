@@ -35,13 +35,6 @@ public class NetworkInteractor extends BaseInteractor {
     }
 
     public Observable<List<String>> fetchTweets(int count) {
-        final List<String> list = new ArrayList<>(count);
-        return twitterAPI.fetchXrecents(count).map(
-                s -> {
-                    list.add(s);
-                    return list;
-                })
-                .filter(l -> l.size() == count)
-                .asObservable();
+        return twitterAPI.fetchXrecents(count);
     }
 }

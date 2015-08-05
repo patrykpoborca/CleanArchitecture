@@ -2,6 +2,7 @@ package io.patrykpoborca.cleanarchitecture.ui.MVVM;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,11 +17,9 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerApplicationComponent;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
-import io.patrykpoborca.cleanarchitecture.ui.MVVM.base.BaseViewModel;
 import io.patrykpoborca.cleanarchitecture.ui.MVVM.base.BaseViewModelActivity;
-import io.patrykpoborca.cleanarchitecture.dagger.components.ActivityInjectorComponent;
+import io.patrykpoborca.cleanarchitecture.util.Utility;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -48,18 +47,21 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
     @Bind(R.id.user_password)
     TextView userPasswordTextView;
 
+    @Bind(R.id.container)
+    ViewGroup container;
+
     @Inject
     MainViewModel viewModel;
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Utility.toggleProgressbar(MainActivityMVVM.this, true);
             if(view == loginButton){
                 registerSubscription(
-                        getViewModel().login(userNameTextView.getText().toString(),
-                        userPasswordTextView.getText().toString())
-                        .subscribe(profile ->
-                                Toast.makeText(MainActivityMVVM.this, profile.getFormattedCredentials(), Toast.LENGTH_LONG).show())
-                        );
+                        getViewModel().toggleLogin(userNameTextView.getText().toString(),
+                                userPasswordTextView.getText().toString())
+                                .subscribe(MainActivityMVVM.this::logUserIn)
+                );
             }
             else if(view == fetchLastTwoButton){
                 registerSubscription(
@@ -70,7 +72,10 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
             else if(view == fetchTweetButton){
                 registerSubscription(
                         getViewModel().fetchCurrentTweet()
-                        .subscribe(tweet -> currentTweetTextView.setText(tweet))
+                        .subscribe(tweet -> {
+                            currentTweetTextView.setText(tweet);
+                            Utility.toggleProgressbar(MainActivityMVVM.this, false);
+                        })
                 );
             }
         }
@@ -90,23 +95,47 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
     @Override
     protected MainViewModel getViewModel() {
         if(viewModel == null){
-//            .builder()
-//                    .baseComponent(CleanArchitectureApplication.getBaseComponent())
-//                    .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
-//                    .build()
-//                    .injectMainActivityMVVM(this);
+            DaggerActivityInjectorComponent.builder()
+                    .baseComponent(CleanArchitectureApplication.getBaseComponent())
+                    .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
+                    .build()
+                    .inject(this);
         }
 
         return viewModel;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        registerSubscription(getViewModel().getMessageStream()
+                .subscribe(s -> Toast.makeText(this, s, Toast.LENGTH_LONG).show()));
+    }
+
     private void displayTweets(List<String> list) {
         pastTweetContainer.removeAllViews();
+        Utility.toggleProgressbar(this, false);
 
         for(int i= 0; i < list.size(); i++){
             TextView textView = new TextView(this);
             textView.setText(list.get(i));
             pastTweetContainer.addView(textView);
+        }
+    }
+
+    private void logUserIn(UserProfile profile){
+        Utility.toggleProgressbar(this, false);
+
+        //unlike the variations of MVP, the
+        if(getViewModel().isLoggedIn()) {
+            Toast.makeText(this, (profile.getFormattedCredentials() + " Logged in"), Toast.LENGTH_SHORT).show();
+            loginButton.setText("Log " + profile.getUserName() + " out");
+            container.setVisibility(View.GONE);
+        }
+        else{
+            loginButton.setText(R.string.log_user_in);
+            container.setVisibility(View.VISIBLE);
         }
     }
 }

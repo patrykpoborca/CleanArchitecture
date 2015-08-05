@@ -2,6 +2,7 @@ package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInject
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.BasePresenterActivity;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPView;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
+import io.patrykpoborca.cleanarchitecture.util.Utility;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -49,6 +51,9 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Bind(R.id.user_password)
     TextView userPasswordTextView;
 
+    @Bind(R.id.container)
+    ViewGroup container;
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -73,6 +78,7 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
 
         fetchLastTwoButton.setOnClickListener(onClickListener);
         fetchTweetButton.setOnClickListener(onClickListener);
+        loginButton.setOnClickListener(onClickListener);
         setTitle("MVP Activity IMPL");
     }
 
@@ -80,13 +86,17 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     protected MainMVPPresenter getPresenter() {
         if(presenter == null){
 
-            DaggerActivityInjectorComponent.builder().twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
-                                .build()
-                                .inject(this);
+            DaggerActivityInjectorComponent.builder()
+                        .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
+                        .baseComponent(CleanArchitectureApplication.getBaseComponent())
+                        .build()
+                        .inject(this);
         }
 
         return presenter;
     }
+
+
 
     @Override
     public void displayFetchedTweet(String tweet) {
@@ -114,7 +124,22 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     }
 
     @Override
+    public void toggleProgressBar(boolean loading) {
+        Utility.toggleProgressbar(this, loading);
+    }
+
+    @Override
     public void setUserButtonText(String text) {
         this.loginButton.setText(text);
+    }
+
+    @Override
+    public void toggleProgressbar(boolean show) {
+        Utility.toggleProgressbar(this, show);
+    }
+
+    @Override
+    public void toggleLoginContainer(boolean b) {
+        container.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 }
