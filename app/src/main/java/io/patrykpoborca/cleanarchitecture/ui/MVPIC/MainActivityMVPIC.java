@@ -2,9 +2,11 @@ package io.patrykpoborca.cleanarchitecture.ui.MVPIC;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +61,14 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     @Bind(R.id.container)
     ViewGroup container;
 
+    @Bind(R.id.some_url)
+    EditText urlText;
+
+    @Bind(R.id.webpage_text)
+    TextView websiteText;
+
+    @Bind(R.id.request_website_button)
+    Button websiteFetchbutton;
 
     @Inject
     MainMVPICPresenter presenter;
@@ -79,6 +89,10 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
             else if(view == loginButton){
                 getPresenter().toggleLogin(userNameTextView.getText().toString(), userPasswordTextView.getText().toString());
             }
+            else if(view == websiteFetchbutton){
+                registerSubscription(getPresenter().loadWebPage(urlText.getText().toString())
+                        .subscribe(s -> websiteText.setText(Html.fromHtml(s))));
+            }
         }
     };
 
@@ -90,6 +104,7 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         fetchLastTwoButton.setOnClickListener(onClickListener);
         fetchTweetButton.setOnClickListener(onClickListener);
         loginButton.setOnClickListener(onClickListener);
+        websiteFetchbutton.setOnClickListener(onClickListener);
         setTitle("MVPIC activity");
     }
 
@@ -99,7 +114,6 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         if(presenter == null){
             DaggerActivityInjectorComponent.builder()
                     .baseComponent(CleanArchitectureApplication.getBaseComponent())
-                    .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
                     .build()
                     .inject(this);
         }
@@ -140,4 +154,6 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         loginButton.setText(R.string.log_user_in);
         container.setVisibility(View.VISIBLE);
     }
+
+
 }

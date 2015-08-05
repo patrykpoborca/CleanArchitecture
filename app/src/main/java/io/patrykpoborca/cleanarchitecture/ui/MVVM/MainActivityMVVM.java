@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,15 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
     @Bind(R.id.container)
     ViewGroup container;
 
+    @Bind(R.id.some_url)
+    EditText urlText;
+
+    @Bind(R.id.webpage_text)
+    TextView websiteText;
+
+    @Bind(R.id.request_website_button)
+    Button websiteFetchbutton;
+
     @Inject
     MainViewModel viewModel;
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -60,7 +70,7 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
                 registerSubscription(
                         getViewModel().toggleLogin(userNameTextView.getText().toString(),
                                 userPasswordTextView.getText().toString())
-                                .subscribe(MainActivityMVVM.this::logUserIn)
+                                .subscribe(MainActivityMVVM.this::toggleLogin)
                 );
             }
             else if(view == fetchLastTwoButton){
@@ -90,6 +100,8 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
         this.fetchLastTwoButton.setOnClickListener(onClickListener);
         this.fetchTweetButton.setOnClickListener(onClickListener);
         this.loginButton.setOnClickListener(onClickListener);
+
+        setTitle("Mainactivity MVVM Impl");
     }
 
     @Override
@@ -97,7 +109,6 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
         if(viewModel == null){
             DaggerActivityInjectorComponent.builder()
                     .baseComponent(CleanArchitectureApplication.getBaseComponent())
-                    .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
                     .build()
                     .inject(this);
         }
@@ -124,7 +135,7 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
         }
     }
 
-    private void logUserIn(UserProfile profile){
+    private void toggleLogin(UserProfile profile){
         Utility.toggleProgressbar(this, false);
 
         //unlike the variations of MVP, the

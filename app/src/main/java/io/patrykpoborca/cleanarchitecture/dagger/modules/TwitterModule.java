@@ -2,9 +2,10 @@ package io.patrykpoborca.cleanarchitecture.dagger.modules;
 
 import dagger.Module;
 import dagger.Provides;
+import io.patrykpoborca.cleanarchitecture.dagger.scopes.ApplicationScope;
+import io.patrykpoborca.cleanarchitecture.dagger.scopes.ExposedAPIScope;
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
-import io.patrykpoborca.cleanarchitecture.network.TwitterApi;
-import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
+import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 
 /**
@@ -14,7 +15,9 @@ import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 public class TwitterModule {
 
     @Provides
-    TwitterApi providesTwitterAPI(Retrofit retro, LocalDataCache cache){
-        return new TwitterApi(retro, cache);
+    @ExposedAPIScope
+    TweeterApi providesTweeterAPI(Retrofit retro, LocalDataCache cache){
+        //technically speaking we can have an injectable constructor for the tweeterApi, but
+        return new TweeterApi(retro, cache);
     }
 }

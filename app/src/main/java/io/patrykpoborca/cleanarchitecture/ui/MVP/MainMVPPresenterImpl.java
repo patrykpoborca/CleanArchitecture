@@ -1,21 +1,14 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
-import android.os.Handler;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
-import io.patrykpoborca.cleanarchitecture.network.TwitterApi;
+import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPView;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.subjects.PublishSubject;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -23,15 +16,14 @@ import rx.subjects.PublishSubject;
 public class MainMVPPresenterImpl implements MainMVPPresenter {
 
     private static final int TWEET_COUNT = 2;
-    private final TwitterApi twitterApi;
+    private final TweeterApi tweeterApi;
     private final Retrofit retrofit;
     private MainMVPPView mainMVPView;
-    private boolean loggedIn = false;
     private int tweetsAdded = 0;
 
 
-    public MainMVPPresenterImpl(TwitterApi twitterApi, Retrofit retrofit) {
-        this.twitterApi = twitterApi;
+    public MainMVPPresenterImpl(TweeterApi tweeterApi, Retrofit retrofit) {
+        this.tweeterApi = tweeterApi;
         this.retrofit = retrofit;
     }
 
@@ -53,7 +45,7 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
     @Override
     public void fetchCurrentTweet() {
         mainMVPView.toggleProgressBar(true);
-        twitterApi.getTweet().subscribe(s -> {
+        tweeterApi.getTweet().subscribe(s -> {
             mainMVPView.toggleProgressBar(false);
             tweetsAdded ++;
             if(tweetsAdded > TWEET_COUNT){
@@ -67,7 +59,7 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
     public void fetchPreviousTweets() {
 
         mainMVPView.toggleProgressBar(true);
-        final Subscription twitterSub = twitterApi.fetchXrecents(TWEET_COUNT)
+        final Subscription twitterSub = tweeterApi.fetchXrecents(TWEET_COUNT)
                 .subscribe(l -> {
                     mainMVPView.displayPreviousTweets(l);
                     mainMVPView.toggleProgressBar(false);
@@ -77,10 +69,8 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
     @Override
     public void toggleLogin(String userName, String userPassword) {
         mainMVPView.toggleProgressBar(true);
-        if(loggedIn){
-            Observable.just(null)
-                    .delay(2, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
+        if(tweeterApi.isLoggedIn()){
+            tweeterApi.logout()
                     .subscribe(s -> {
                         mainMVPView.toggleProgressBar(false);
                         mainMVPView.setUserButtonText("Login");
@@ -91,7 +81,7 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
                     });
         }
         else {
-            this.retrofit.performRequest(userName, userPassword)
+            this.tweeterApi.login(userName, userPassword)
                     .subscribe(userProfile -> {
                         mainMVPView.displayToast(userProfile.getFormattedCredentials() + " Logged in");
                         mainMVPView.setUserButtonText("Log " + userProfile.getUserName() + " out");
@@ -99,6 +89,5 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
                         mainMVPView.toggleLoginContainer(false);
                     });
         }
-        this.loggedIn = !loggedIn;
     }
 }

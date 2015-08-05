@@ -87,4 +87,12 @@ public class MainMVPICPresenter extends BasePresenterMVPIC<MainActivityMVPICPvie
                     });
         }
     }
+
+    public Observable<String> loadWebPage(String url){
+        getPView().toggleProgressBar(true);
+        Observable<String> observable = interactor.loadWebpage(url);
+
+        observable.subscribe(s -> getPView().toggleProgressBar(false));
+        return observable;
+    }
 }

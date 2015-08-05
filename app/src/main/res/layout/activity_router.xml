@@ -19,13 +19,6 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@android:color/black"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="By Patryk Poborca"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"/>
-
         <Button
             android:id="@+id/stupid_activity"
             android:layout_width="wrap_content"
@@ -57,12 +50,15 @@
             android:layout_marginTop="10dp"
             android:text="MVVM Activity"/>
 
-        <Button
-            android:id="@+id/mvvmi_activity"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/link"
+            android:layout_marginTop="100dp"
+            android:text="@string/repo"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="MVVMI Activity"/>
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginBottom="20dp"/>
+
     </LinearLayout>
 </ScrollView>

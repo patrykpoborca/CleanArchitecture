@@ -13,18 +13,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="History:"/>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:minHeight="100dp">
+            <View android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:background="@android:color/holo_blue_light"
+                android:alpha="0.4"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="History:"/>
 
-        <LinearLayout
-            android:id="@+id/past_tweets_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="vertical"/>
-
+            <LinearLayout
+                android:id="@+id/past_tweets_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"/>
+        </FrameLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -37,17 +44,22 @@
             android:layout_height="wrap_content"
             android:text="@string/hello_world"/>
 
-        <Button
-            android:id="@+id/fetch_tweet_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Fetch Tweet!"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+            <Button
+                android:id="@+id/fetch_tweet_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fetch Tweet!"/>
 
-        <Button
-            android:id="@+id/fetch_last_two_tweets"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Fetch Last two Tweets!"/>
+            <Button
+                android:id="@+id/fetch_last_two_tweets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fetch Last two Tweets!"/>
+        </LinearLayout>
+
 
 
         <LinearLayout android:layout_width="match_parent"
@@ -71,5 +83,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/log_user_in"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+            <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/some_url"/>
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/request_website_button"
+            android:text="Request"/>
+        </LinearLayout>
+
+        <FrameLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+            <View android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:background="@android:color/holo_blue_light"
+                  android:alpha="0.4"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/webpage_text"/>
+        </FrameLayout>
     </LinearLayout>
 </ScrollView>

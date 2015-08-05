@@ -1,7 +1,10 @@
 package io.patrykpoborca.cleanarchitecture.dagger.modules;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
+import io.patrykpoborca.cleanarchitecture.dagger.scopes.ApplicationScope;
 import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 
@@ -23,11 +26,13 @@ public class NetworkModule {
     }
     */
 
+    @ApplicationScope
     @Provides
     OKHttp providesOkHTTP(){
         return new OKHttp();
     }
 
+    @ApplicationScope
     @Provides
     Retrofit providesRetrofit(OKHttp okHttp){
         return new Retrofit(okHttp);

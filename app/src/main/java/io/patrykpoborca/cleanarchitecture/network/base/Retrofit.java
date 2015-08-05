@@ -17,16 +17,13 @@ public class Retrofit {
         this.okHttp = okHttp;
     }
 
-    public String parseString(){
+    public String completeRequest(){
         return okHttp.rawResponse() + " Some Parsing Done";
     }
 
-    public Observable<UserProfile> performRequest(String username, String password) {
-
-
-        return Observable.just(new UserProfile(username, password))
-                .subscribeOn(Schedulers.io())
-                .delay(3, TimeUnit.SECONDS)
+    public Observable<String> fetchSomePage(String url){
+        return Observable.just("<h2>" + "Fake response from fake retrofit: " + url + " </h2>")
+                .delay(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -3,7 +3,7 @@ package io.patrykpoborca.cleanarchitecture.dagger.modules;
 import dagger.Module;
 import dagger.Provides;
 import io.patrykpoborca.cleanarchitecture.dagger.interactors.NetworkInteractor;
-import io.patrykpoborca.cleanarchitecture.network.TwitterApi;
+import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 
 /**
@@ -13,7 +13,7 @@ import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 public class InteractorModule {
 
     @Provides
-    NetworkInteractor providesNetworkInteractor(Retrofit retrofit, TwitterApi api){
+    NetworkInteractor providesNetworkInteractor(Retrofit retrofit, TweeterApi api){
         return new NetworkInteractor(retrofit, api);
     }
 }

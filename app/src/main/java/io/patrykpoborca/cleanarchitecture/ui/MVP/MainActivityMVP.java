@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,15 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Bind(R.id.container)
     ViewGroup container;
 
+    @Bind(R.id.some_url)
+    EditText urlText;
+
+    @Bind(R.id.webpage_text)
+    TextView websiteText;
+
+    @Bind(R.id.request_website_button)
+    Button websiteFetchbutton;
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -87,10 +97,9 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         if(presenter == null){
 
             DaggerActivityInjectorComponent.builder()
-                        .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
-                        .baseComponent(CleanArchitectureApplication.getBaseComponent())
-                        .build()
-                        .inject(this);
+                    .baseComponent(CleanArchitectureApplication.getBaseComponent())
+                    .build()
+                    .inject(this);
         }
 
         return presenter;

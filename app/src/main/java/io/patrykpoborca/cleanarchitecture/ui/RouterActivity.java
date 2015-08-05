@@ -1,6 +1,7 @@
 package io.patrykpoborca.cleanarchitecture.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,8 +31,9 @@ public class RouterActivity extends AppCompatActivity {
     @Bind(R.id.mvvm_activity)
     View mvvmActivity;
 
-    @Bind(R.id.mvvmi_activity)
-    View mvvmiActivity;
+
+    @Bind(R.id.link)
+    View repoLink;
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -42,14 +44,22 @@ public class RouterActivity extends AppCompatActivity {
             else if(view == mvpicActivity){
                 intent = new Intent(RouterActivity.this, MainActivityMVPIC.class);
             }
-            else if(view == mvvmActivity){
+            else if(view == mvvmActivity) {
                 intent = new Intent(RouterActivity.this, MainActivityMVVM.class);
-            }
-            else if(view == mvvmiActivity){
-//                intent = new Intent(RouterActivity.this, MainActivityStupid.class);
             }
             else if(view == mvpActivity){
                 intent = new Intent(RouterActivity.this, MainActivityMVP.class);
+            }
+            else if(view == repoLink){
+                try
+                {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/patrykpoborca/CleanArchitecture"));
+                    startActivity(browserIntent);
+
+                }
+                finally
+                {
+                }
             }
 
             startActivity(intent);
@@ -63,9 +73,9 @@ public class RouterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mvvmActivity.setOnClickListener(onClickListener);
-        mvvmiActivity.setOnClickListener(onClickListener);
         mvpicActivity.setOnClickListener(onClickListener);
         mvpActivity.setOnClickListener(onClickListener);
         stupidActivity.setOnClickListener(onClickListener);
+        repoLink.setOnClickListener(onClickListener);
     }
 }

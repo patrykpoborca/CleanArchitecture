@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.network.TwitterApi;
+import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
@@ -26,7 +27,7 @@ public class MainActivityStupid extends BaseCAActivity {
 
     private static final int TWEET_COUNT = 2;
     @Inject
-    TwitterApi twitterApi;
+    TweeterApi tweeterApi;
     
     @Inject
     Retrofit retrofit;
@@ -55,6 +56,15 @@ public class MainActivityStupid extends BaseCAActivity {
     @Bind(R.id.container)
     ViewGroup container;
 
+    @Bind(R.id.some_url)
+    EditText urlText;
+
+    @Bind(R.id.webpage_text)
+    TextView websiteText;
+
+    @Bind(R.id.request_website_button)
+    Button websiteFetchbutton;
+
     private int tweetsAdded = 0;
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -64,17 +74,17 @@ public class MainActivityStupid extends BaseCAActivity {
             
             if(view == fetchLastTwoButton){
                 registerSubscription(
-                        twitterApi.fetchXrecents(2)
+                        tweeterApi.fetchXrecents(2)
                                 .subscribe(MainActivityStupid.this::displayPreviousTweets)
                 );
             }
             else if(view == fetchTweetButton){
                 registerSubscription(
-                        twitterApi.getTweet()
+                        tweeterApi.getTweet()
                                 .subscribe(s -> {
                                     currentTweetTextView.setText(s);
                                     tweetsAdded++;
-                                    if(tweetsAdded > TWEET_COUNT){
+                                    if (tweetsAdded > TWEET_COUNT) {
                                         Toast.makeText(MainActivityStupid.this, "Tweet size exceeded " + TWEET_COUNT, Toast.LENGTH_LONG).show();
                                     }
                                     Utility.toggleProgressbar(MainActivityStupid.this, false);
@@ -82,16 +92,25 @@ public class MainActivityStupid extends BaseCAActivity {
                 );
             }
             else if(view == loginButton){
-                registerSubscription(
-                        retrofit.performRequest(
-                                userNameTextView.getText().toString(),
-                                userPasswordTextView.getText().toString())
-                                .subscribe(MainActivityStupid.this::toggleUserLogin)
-                );
+                if(tweeterApi.isLoggedIn()){
+                    registerSubscription(tweeterApi.logout()
+                            .subscribe(s -> {
+                                container.setVisibility(View.VISIBLE);
+                                loginButton.setText(R.string.log_user_in);
+                                Utility.toggleProgressbar(MainActivityStupid.this, false);
+                            }));
+                }
+                else {
+                    registerSubscription(
+                            tweeterApi.login(
+                                    userNameTextView.getText().toString(),
+                                    userPasswordTextView.getText().toString())
+                                    .subscribe(MainActivityStupid.this::userLogin)
+                    );
+                }
             }
         }
     };
-    private boolean loggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +119,6 @@ public class MainActivityStupid extends BaseCAActivity {
 
         DaggerActivityInjectorComponent.builder()
                 .baseComponent(CleanArchitectureApplication.getBaseComponent())
-                .twitterComponent(CleanArchitectureApplication.getTwitterAPIComponent())
                 .build()
                 .inject(this);
 
@@ -123,16 +141,10 @@ public class MainActivityStupid extends BaseCAActivity {
         }
     }
     
-    public void toggleUserLogin(UserProfile profile){
+    public void userLogin(UserProfile profile){
         Utility.toggleProgressbar(this, false);
-        if(loggedIn){
-            container.setVisibility(View.VISIBLE);
-            loginButton.setText(R.string.log_user_in);
-        }
-        else{
-            container.setVisibility(View.GONE);
-            loginButton.setText("Log " + profile.getUserName() + " out");
-        }
-        loggedIn = !loggedIn;
+
+        container.setVisibility(View.GONE);
+        loginButton.setText("Log " + profile.getUserName() + " out");
     }
 }
