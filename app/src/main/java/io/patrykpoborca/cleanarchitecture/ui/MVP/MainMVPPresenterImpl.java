@@ -90,4 +90,14 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
                     });
         }
     }
+
+    @Override
+    public void loadWebPage(String url) {
+        mainMVPView.toggleProgressBar(true);
+        retrofit.fetchSomePage(url)
+                .subscribe(s -> {
+                    mainMVPView.displayWebpage(s);
+                    mainMVPView.toggleProgressBar(false);
+                });
+    }
 }

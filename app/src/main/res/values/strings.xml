@@ -5,4 +5,13 @@
     <string name="action_settings">Settings</string>
     <string name="log_user_in">Log User In</string>
     <string name="repo">Check out the sourcecode</string>
+    <string name="history_text">This box will container past two tweets fetched through out the
+        app.
+    </string>
+    <string name="url_text">This is the moced webpage that will be fetched. For this purpose the url
+        you entered will simply be injected into HTML header tags
+    </string>
+    <string name="login_text">This is to simulate logging into the application. If you do log in,
+        any fetched tweets will be displayed using your user-name
+    </string>
 </resources>

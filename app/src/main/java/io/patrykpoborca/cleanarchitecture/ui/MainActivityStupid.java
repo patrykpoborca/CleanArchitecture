@@ -1,6 +1,8 @@
 package io.patrykpoborca.cleanarchitecture.ui;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,50 +30,33 @@ public class MainActivityStupid extends BaseCAActivity {
     private static final int TWEET_COUNT = 2;
     @Inject
     TweeterApi tweeterApi;
-    
-    @Inject
-    Retrofit retrofit;
 
-    @Bind(R.id.fetch_tweet_button)
-    Button fetchTweetButton;
+    @Inject Retrofit retrofit;
 
-    @Bind(R.id.fetch_last_two_tweets)
-    Button fetchLastTwoButton;
+    @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
+    @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
+    @Bind(R.id.current_tweet) TextView currentTweetTextView;
+    @Bind(R.id.past_tweets_container) LinearLayout pastTweetContainer;
+    @Bind(R.id.user_login_button) Button loginButton;
+    @Bind(R.id.user_name) TextView userNameTextView;
+    @Bind(R.id.user_password) TextView userPasswordTextView;
+    @Bind(R.id.container) ViewGroup container;
+    @Bind(R.id.some_url) EditText urlText;
+    @Bind(R.id.webpage_text) TextView websiteText;
+    @Bind(R.id.request_website_button) Button websiteFetchbutton;
+    @Bind(R.id.help_history) View helpHistory;
+    @Bind(R.id.help_login) View helpLogin;
+    @Bind(R.id.help_url) View helpUrl;
 
-    @Bind(R.id.current_tweet)
-    TextView currentTweetTextView;
 
-    @Bind(R.id.past_tweets_container)
-    LinearLayout pastTweetContainer;
-
-    @Bind(R.id.user_login_button)
-    Button loginButton;
-
-    @Bind(R.id.user_name)
-    TextView userNameTextView;
-
-    @Bind(R.id.user_password)
-    TextView userPasswordTextView;
-
-    @Bind(R.id.container)
-    ViewGroup container;
-
-    @Bind(R.id.some_url)
-    EditText urlText;
-
-    @Bind(R.id.webpage_text)
-    TextView websiteText;
-
-    @Bind(R.id.request_website_button)
-    Button websiteFetchbutton;
 
     private int tweetsAdded = 0;
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             Utility.toggleProgressbar(MainActivityStupid.this, true);
-            
             if(view == fetchLastTwoButton){
                 registerSubscription(
                         tweeterApi.fetchXrecents(2)
@@ -109,6 +94,41 @@ public class MainActivityStupid extends BaseCAActivity {
                     );
                 }
             }
+            else if(view == websiteFetchbutton){
+                retrofit.fetchSomePage(urlText.getText().toString())
+                        .subscribe(s -> {
+                            websiteText.setText(Html.fromHtml(s));
+                            Utility.toggleProgressbar(MainActivityStupid.this, false);
+                        });
+            }
+
+        }
+    };
+
+    private final View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view == helpHistory){
+                new AlertDialog.Builder(MainActivityStupid.this)
+                        .setMessage(R.string.history_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpUrl){
+                new AlertDialog.Builder(MainActivityStupid.this)
+                        .setMessage(R.string.url_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpLogin){
+                new AlertDialog.Builder(MainActivityStupid.this)
+                        .setMessage(R.string.login_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
         }
     };
 
@@ -126,9 +146,13 @@ public class MainActivityStupid extends BaseCAActivity {
 
         setTitle("Stupid Activity IMPL");
 
-        fetchLastTwoButton.setOnClickListener(onClickListener);
-        fetchTweetButton.setOnClickListener(onClickListener);
-        loginButton.setOnClickListener(onClickListener);
+        this.fetchLastTwoButton.setOnClickListener(onClickListener);
+        this.fetchTweetButton.setOnClickListener(onClickListener);
+        this.loginButton.setOnClickListener(onClickListener);
+        this.websiteFetchbutton.setOnClickListener(onClickListener);
+        this.helpHistory.setOnClickListener(dialogClickListener);
+        this.helpLogin.setOnClickListener(dialogClickListener);
+        this.helpUrl.setOnClickListener(dialogClickListener);
     }
 
     public void displayPreviousTweets(List<String> tweets) {

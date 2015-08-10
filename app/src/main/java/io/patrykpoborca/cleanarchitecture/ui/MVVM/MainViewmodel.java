@@ -67,4 +67,8 @@ public class MainViewModel extends BaseViewModel{
         }
         return messageStream.asObservable();
     }
+
+    public Observable<String> loadWebPage(String url){
+        return retroFit.fetchSomePage(url);
+    }
 }

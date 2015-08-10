@@ -2,6 +2,7 @@ package io.patrykpoborca.cleanarchitecture.ui.MVPIC;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,38 +38,20 @@ import rx.internal.util.UtilityFunctions;
  */
 public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPresenter> implements MainActivityMVPICPview {
 
-    @Bind(R.id.fetch_tweet_button)
-    Button fetchTweetButton;
-
-    @Bind(R.id.fetch_last_two_tweets)
-    Button fetchLastTwoButton;
-
-    @Bind(R.id.current_tweet)
-    TextView currentTweetTextView;
-
-    @Bind(R.id.past_tweets_container)
-    LinearLayout pastTweetContainer;
-
-    @Bind(R.id.user_login_button)
-    Button loginButton;
-
-    @Bind(R.id.user_name)
-    TextView userNameTextView;
-
-    @Bind(R.id.user_password)
-    TextView userPasswordTextView;
-
-    @Bind(R.id.container)
-    ViewGroup container;
-
-    @Bind(R.id.some_url)
-    EditText urlText;
-
-    @Bind(R.id.webpage_text)
-    TextView websiteText;
-
-    @Bind(R.id.request_website_button)
-    Button websiteFetchbutton;
+    @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
+    @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
+    @Bind(R.id.current_tweet) TextView currentTweetTextView;
+    @Bind(R.id.past_tweets_container) LinearLayout pastTweetContainer;
+    @Bind(R.id.user_login_button) Button loginButton;
+    @Bind(R.id.user_name) TextView userNameTextView;
+    @Bind(R.id.user_password) TextView userPasswordTextView;
+    @Bind(R.id.container) ViewGroup container;
+    @Bind(R.id.some_url) EditText urlText;
+    @Bind(R.id.webpage_text) TextView websiteText;
+    @Bind(R.id.request_website_button) Button websiteFetchbutton;
+    @Bind(R.id.help_history) View helpHistory;
+    @Bind(R.id.help_login) View helpLogin;
+    @Bind(R.id.help_url) View helpUrl;
 
     @Inject
     MainMVPICPresenter presenter;
@@ -96,15 +79,45 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         }
     };
 
+    private final View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view == helpHistory){
+                new AlertDialog.Builder(MainActivityMVPIC.this)
+                        .setMessage(R.string.history_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpUrl){
+                new AlertDialog.Builder(MainActivityMVPIC.this)
+                        .setMessage(R.string.url_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpLogin){
+                new AlertDialog.Builder(MainActivityMVPIC.this)
+                        .setMessage(R.string.login_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        fetchLastTwoButton.setOnClickListener(onClickListener);
-        fetchTweetButton.setOnClickListener(onClickListener);
-        loginButton.setOnClickListener(onClickListener);
-        websiteFetchbutton.setOnClickListener(onClickListener);
+        this.fetchLastTwoButton.setOnClickListener(onClickListener);
+        this.fetchTweetButton.setOnClickListener(onClickListener);
+        this.loginButton.setOnClickListener(onClickListener);
+        this.websiteFetchbutton.setOnClickListener(onClickListener);
+        this.helpHistory.setOnClickListener(dialogClickListener);
+        this.helpLogin.setOnClickListener(dialogClickListener);
+        this.helpUrl.setOnClickListener(dialogClickListener);
         setTitle("MVPIC activity");
     }
 

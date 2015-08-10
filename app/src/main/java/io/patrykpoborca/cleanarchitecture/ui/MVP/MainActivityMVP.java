@@ -1,6 +1,8 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,38 +33,20 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Inject
     MainMVPPresenter presenter;
 
-    @Bind(R.id.fetch_tweet_button)
-    Button fetchTweetButton;
-
-    @Bind(R.id.fetch_last_two_tweets)
-    Button fetchLastTwoButton;
-
-    @Bind(R.id.current_tweet)
-    TextView currentTweetTextView;
-
-    @Bind(R.id.past_tweets_container)
-    LinearLayout pastTweetContainer;
-
-    @Bind(R.id.user_login_button)
-    Button loginButton;
-
-    @Bind(R.id.user_name)
-    TextView userNameTextView;
-
-    @Bind(R.id.user_password)
-    TextView userPasswordTextView;
-
-    @Bind(R.id.container)
-    ViewGroup container;
-
-    @Bind(R.id.some_url)
-    EditText urlText;
-
-    @Bind(R.id.webpage_text)
-    TextView websiteText;
-
-    @Bind(R.id.request_website_button)
-    Button websiteFetchbutton;
+    @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
+    @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
+    @Bind(R.id.current_tweet) TextView currentTweetTextView;
+    @Bind(R.id.past_tweets_container) LinearLayout pastTweetContainer;
+    @Bind(R.id.user_login_button) Button loginButton;
+    @Bind(R.id.user_name) TextView userNameTextView;
+    @Bind(R.id.user_password) TextView userPasswordTextView;
+    @Bind(R.id.container) ViewGroup container;
+    @Bind(R.id.some_url) EditText urlText;
+    @Bind(R.id.webpage_text) TextView websiteText;
+    @Bind(R.id.request_website_button) Button websiteFetchbutton;
+    @Bind(R.id.help_history) View helpHistory;
+    @Bind(R.id.help_login) View helpLogin;
+    @Bind(R.id.help_url) View helpUrl;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -73,9 +57,40 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
             else if(view == fetchTweetButton){
                 getPresenter().fetchCurrentTweet();
             }
-            if(view == loginButton){
+            else if(view == loginButton){
                 getPresenter().toggleLogin(userNameTextView.getText().toString(),
                                     userPasswordTextView.getText().toString());
+            }
+            else if(view == websiteFetchbutton){
+                getPresenter().loadWebPage(urlText.getText().toString());
+            }
+
+        }
+    };
+
+    private final View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view == helpHistory){
+                new AlertDialog.Builder(MainActivityMVP.this)
+                        .setMessage(R.string.history_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpUrl){
+                new AlertDialog.Builder(MainActivityMVP.this)
+                        .setMessage(R.string.url_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpLogin){
+                new AlertDialog.Builder(MainActivityMVP.this)
+                        .setMessage(R.string.login_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
             }
         }
     };
@@ -86,9 +101,13 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        fetchLastTwoButton.setOnClickListener(onClickListener);
-        fetchTweetButton.setOnClickListener(onClickListener);
-        loginButton.setOnClickListener(onClickListener);
+        this.fetchLastTwoButton.setOnClickListener(onClickListener);
+        this.fetchTweetButton.setOnClickListener(onClickListener);
+        this.loginButton.setOnClickListener(onClickListener);
+        this.websiteFetchbutton.setOnClickListener(onClickListener);
+        this.helpHistory.setOnClickListener(dialogClickListener);
+        this.helpLogin.setOnClickListener(dialogClickListener);
+        this.helpUrl.setOnClickListener(dialogClickListener);
         setTitle("MVP Activity IMPL");
     }
 
@@ -150,5 +169,10 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Override
     public void toggleLoginContainer(boolean b) {
         container.setVisibility(b ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void displayWebpage(String html) {
+        websiteText.setText(Html.fromHtml(html));
     }
 }

@@ -1,6 +1,8 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVVM;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,38 +29,20 @@ import io.patrykpoborca.cleanarchitecture.util.Utility;
  */
 public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
 
-    @Bind(R.id.fetch_tweet_button)
-    Button fetchTweetButton;
-
-    @Bind(R.id.fetch_last_two_tweets)
-    Button fetchLastTwoButton;
-
-    @Bind(R.id.current_tweet)
-    TextView currentTweetTextView;
-
-    @Bind(R.id.past_tweets_container)
-    LinearLayout pastTweetContainer;
-
-    @Bind(R.id.user_login_button)
-    Button loginButton;
-
-    @Bind(R.id.user_name)
-    TextView userNameTextView;
-
-    @Bind(R.id.user_password)
-    TextView userPasswordTextView;
-
-    @Bind(R.id.container)
-    ViewGroup container;
-
-    @Bind(R.id.some_url)
-    EditText urlText;
-
-    @Bind(R.id.webpage_text)
-    TextView websiteText;
-
-    @Bind(R.id.request_website_button)
-    Button websiteFetchbutton;
+    @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
+    @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
+    @Bind(R.id.current_tweet) TextView currentTweetTextView;
+    @Bind(R.id.past_tweets_container) LinearLayout pastTweetContainer;
+    @Bind(R.id.user_login_button) Button loginButton;
+    @Bind(R.id.user_name) TextView userNameTextView;
+    @Bind(R.id.user_password) TextView userPasswordTextView;
+    @Bind(R.id.container) ViewGroup container;
+    @Bind(R.id.some_url) EditText urlText;
+    @Bind(R.id.webpage_text) TextView websiteText;
+    @Bind(R.id.request_website_button) Button websiteFetchbutton;
+    @Bind(R.id.help_history) View helpHistory;
+    @Bind(R.id.help_login) View helpLogin;
+    @Bind(R.id.help_url) View helpUrl;
 
     @Inject
     MainViewModel viewModel;
@@ -88,6 +72,42 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
                         })
                 );
             }
+            else if(view == websiteFetchbutton){
+                registerSubscription(
+                        getViewModel().loadWebPage(urlText.getText().toString())
+                            .subscribe(s -> {
+                                websiteText.setText(Html.fromHtml(s));
+                                Utility.toggleProgressbar(MainActivityMVVM.this, false);
+                            })
+                );
+            }
+        }
+    };
+
+    private final View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view == helpHistory){
+                new AlertDialog.Builder(MainActivityMVVM.this)
+                        .setMessage(R.string.history_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpUrl){
+                new AlertDialog.Builder(MainActivityMVVM.this)
+                        .setMessage(R.string.url_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
+            else if(view == helpLogin){
+                new AlertDialog.Builder(MainActivityMVVM.this)
+                        .setMessage(R.string.login_text)
+                        .setPositiveButton("Ok", null)
+                        .create()
+                        .show();
+            }
         }
     };
 
@@ -100,6 +120,10 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
         this.fetchLastTwoButton.setOnClickListener(onClickListener);
         this.fetchTweetButton.setOnClickListener(onClickListener);
         this.loginButton.setOnClickListener(onClickListener);
+        this.websiteFetchbutton.setOnClickListener(onClickListener);
+        this.helpHistory.setOnClickListener(dialogClickListener);
+        this.helpLogin.setOnClickListener(dialogClickListener);
+        this.helpUrl.setOnClickListener(dialogClickListener);
 
         setTitle("Mainactivity MVVM Impl");
     }

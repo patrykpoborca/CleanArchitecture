@@ -18,4 +18,6 @@ public interface MainMVPPView extends PView {
     public void toggleProgressbar(boolean show);
 
     void toggleLoginContainer(boolean b);
+
+    void displayWebpage(String html);
 }

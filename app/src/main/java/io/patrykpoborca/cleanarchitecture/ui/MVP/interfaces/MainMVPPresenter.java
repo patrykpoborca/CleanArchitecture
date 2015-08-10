@@ -12,4 +12,6 @@ import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.Presenter;
     public void fetchPreviousTweets();
 
     public void toggleLogin(String userName, String userPassword);
+
+    void loadWebPage(String url);
 }
