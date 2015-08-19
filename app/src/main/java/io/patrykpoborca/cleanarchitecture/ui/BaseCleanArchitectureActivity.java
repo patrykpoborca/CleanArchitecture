@@ -8,7 +8,7 @@ import java.util.List;
 
 import rx.Subscription;
 
-public class BaseCAActivity extends AppCompatActivity{
+public class BaseCleanArchitectureActivity extends AppCompatActivity{
 
     private List<Subscription> subscriptions;
 

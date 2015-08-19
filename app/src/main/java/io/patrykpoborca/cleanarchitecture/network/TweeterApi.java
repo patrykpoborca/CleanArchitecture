@@ -29,30 +29,33 @@ public class TweeterApi {
     }
 
     public Observable<String> getTweet(){
-        String tweet;
-        if(isLoggedIn()){
-            tweet = userName.getUserName() + " -> " + retrofit.completeRequest();
-        }
-        else {
-            tweet = "Some user -> " + retrofit.completeRequest();
-        }
-        localDataCache.saveTweet(tweet);
+        return retrofit.completeRequest()
+                .map(tweet -> {
+                    localDataCache.saveTweet(tweet);
 
-        return Observable.just(tweet)
-                .delay(2, TimeUnit.SECONDS)
+                    if (isLoggedIn()) {
+                        tweet = userName.getUserName() + " -> " + tweet;
+                    }
+                    else {
+                        tweet = "Some user -> " + tweet;
+                    }
+
+                    return tweet;
+                })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<String>> fetchXrecents(int some){
-        List<String> someTweets = new ArrayList(some);
-        int size = some > localDataCache.fetchRecentTweets().size() ? localDataCache.fetchRecentTweets().size() : some;
+    public Observable<List<String>> fetchXrecents(int count){
 
-        for(int i= 0; i < size; i++){
-            someTweets.add(localDataCache.fetchRecentTweets().get(localDataCache.fetchRecentTweets().size() - i -1));
-        }
-
-        return Observable.just(someTweets)
-                .delay(2, TimeUnit.SECONDS)
+        return localDataCache.fetchRecentTweets()
+                .map(list ->{
+                    List<String> tweets = new ArrayList<>(count);
+                    int size = list.size() <= count ? list.size() : count;
+                    for(int i=0; i < size; i++){
+                        tweets.add(list.get(i));
+                    }
+                    return tweets;
+                })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -60,7 +63,7 @@ public class TweeterApi {
 
         Observable<UserProfile> observable = Observable.just(new UserProfile(username, password))
                 .subscribeOn(Schedulers.io())
-                .delay(3, TimeUnit.SECONDS)
+                .delay(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread());
         
         observable.subscribe(user -> this.userName = user);

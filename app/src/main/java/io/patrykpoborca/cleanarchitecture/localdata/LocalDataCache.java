@@ -3,6 +3,10 @@ package io.patrykpoborca.cleanarchitecture.localdata;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -10,7 +14,7 @@ import java.util.ArrayList;
 public class LocalDataCache {
 
     //pretend this is some read/write to disk :)
-    private static ArrayList<String> sPastTweets;
+    protected static ArrayList<String> sPastTweets;
     private Context context;
 
     public LocalDataCache(Context context) {
@@ -18,11 +22,16 @@ public class LocalDataCache {
         sPastTweets = new ArrayList<>();
     }
 
-    public void saveTweet(String tweet){
+    public void saveTweet(String tweet) {
         sPastTweets.add(tweet);
     }
 
-    public ArrayList<String> fetchRecentTweets(){
-        return sPastTweets;
+    public Observable<List<String>> fetchRecentTweets() {
+        return Observable.just(sPastTweets)
+                .map(arrayList -> {
+                    List<String> list = arrayList;
+                    return list;
+                })
+                .delay(2, TimeUnit.SECONDS);
     }
 }

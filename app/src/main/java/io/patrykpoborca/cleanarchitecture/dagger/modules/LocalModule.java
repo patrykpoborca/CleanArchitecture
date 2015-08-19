@@ -18,7 +18,7 @@ public class LocalModule {
 
     @ApplicationScope
     @Provides
-    LocalDataCache providesDataCache(Application application){
+    protected LocalDataCache providesDataCache(Application application){
         return new LocalDataCache(application);
     }
 }

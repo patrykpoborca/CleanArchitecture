@@ -12,13 +12,14 @@ import rx.schedulers.Schedulers;
  */
 public class Retrofit {
 
-    OKHttp okHttp;
+    protected OKHttp okHttp;
     public Retrofit(OKHttp okHttp) {
         this.okHttp = okHttp;
     }
 
-    public String completeRequest(){
-        return okHttp.rawResponse() + " Some Parsing Done";
+    public Observable<String> completeRequest(){
+        return Observable.just(okHttp.rawResponse() + " Some Parsing Done")
+                .delay(2, TimeUnit.SECONDS);
     }
 
     public Observable<String> fetchSomePage(String url){

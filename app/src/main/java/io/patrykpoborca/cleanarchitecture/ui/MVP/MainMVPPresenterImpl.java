@@ -59,7 +59,7 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
     public void fetchPreviousTweets() {
 
         mainMVPView.toggleProgressBar(true);
-        final Subscription twitterSub = tweeterApi.fetchXrecents(TWEET_COUNT)
+        tweeterApi.fetchXrecents(TWEET_COUNT)
                 .subscribe(l -> {
                     mainMVPView.displayPreviousTweets(l);
                     mainMVPView.toggleProgressBar(false);

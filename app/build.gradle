@@ -12,6 +12,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -30,7 +31,7 @@ dependencies {
     dependencies {
         apt 'com.google.dagger:dagger-compiler:2.0'
         compile fileTree(include: ['*.jar'], dir: 'libs')
-        compile 'com.android.support:appcompat-v7:22.2.1'
+        compile 'com.android.support:appcompat-v7:22.2.0'
         compile 'com.google.dagger:dagger:2.0'
         provided 'org.glassfish:javax.annotation:10.0-b28'
         compile 'io.reactivex:rxandroid:0.25.0'
@@ -40,7 +41,9 @@ dependencies {
         //test compiles
         androidTestApt 'com.google.dagger:dagger-compiler:2.0'
         androidTestCompile 'com.google.dagger:dagger:2.0'
-        androidTestCompile 'junit:junit:4.12'
+        androidTestCompile 'com.android.support.test:runner:0.3'
+        // Set this dependency to use JUnit 4 rules
+        androidTestCompile 'com.android.support.test:rules:0.3'
         androidTestCompile 'org.mockito:mockito-core:1.+'
         androidTestCompile('com.android.support.test:runner:0.3') {
             exclude group: 'com.android.support', module: 'support-annotations'

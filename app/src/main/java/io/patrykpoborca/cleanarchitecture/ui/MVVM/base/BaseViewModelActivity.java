@@ -1,11 +1,10 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVVM.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import io.patrykpoborca.cleanarchitecture.ui.BaseCAActivity;
+import io.patrykpoborca.cleanarchitecture.ui.BaseCleanArchitectureActivity;
 
-public abstract class BaseViewModelActivity<T extends BaseViewModel> extends BaseCAActivity {
+public abstract class BaseViewModelActivity<T extends BaseViewModel> extends BaseCleanArchitectureActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

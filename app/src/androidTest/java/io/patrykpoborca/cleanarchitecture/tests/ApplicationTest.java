@@ -1,4 +1,4 @@
-package io.patrykpoborca.cleanarchitecture;
+package io.patrykpoborca.cleanarchitecture.tests;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

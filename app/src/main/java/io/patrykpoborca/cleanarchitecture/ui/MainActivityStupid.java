@@ -25,7 +25,7 @@ import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
 
-public class MainActivityStupid extends BaseCAActivity {
+public class MainActivityStupid extends BaseCleanArchitectureActivity {
 
     private static final int TWEET_COUNT = 2;
     @Inject

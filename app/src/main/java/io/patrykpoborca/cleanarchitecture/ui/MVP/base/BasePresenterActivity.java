@@ -1,16 +1,15 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP.base;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import io.patrykpoborca.cleanarchitecture.ui.BaseCAActivity;
+import io.patrykpoborca.cleanarchitecture.ui.BaseCleanArchitectureActivity;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.Presenter;
 
 /**
  * Created by Patryk on 7/28/2015.
  */
-public abstract class BasePresenterActivity<T extends Presenter> extends BaseCAActivity implements PView {
+public abstract class BasePresenterActivity<T extends Presenter> extends BaseCleanArchitectureActivity implements PView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

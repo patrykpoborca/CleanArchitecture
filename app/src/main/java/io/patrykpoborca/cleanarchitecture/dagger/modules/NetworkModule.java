@@ -28,13 +28,13 @@ public class NetworkModule {
 
     @ApplicationScope
     @Provides
-    OKHttp providesOkHTTP(){
+    protected OKHttp providesOkHTTP(){
         return new OKHttp();
     }
 
     @ApplicationScope
     @Provides
-    Retrofit providesRetrofit(OKHttp okHttp){
+    protected Retrofit providesRetrofit(OKHttp okHttp){
         return new Retrofit(okHttp);
     }
 }
