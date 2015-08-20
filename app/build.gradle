@@ -3,6 +3,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.3"
+    }
+}
+
+apply plugin: "net.ltgt.apt"
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -31,6 +44,7 @@ android {
 dependencies {
     dependencies {
         apt 'com.google.dagger:dagger-compiler:2.0'
+        testApt 'com.google.dagger:dagger-compiler:2.0'
         //needed to resolve compilation errors, thanks to tutplus.org for finding the dependency
         // http://stackoverflow.com/questions/27036933/how-to-set-up-dagger-dependency-injection-from-scratch-in-android-project
         //test compiles
