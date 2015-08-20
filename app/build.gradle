@@ -1,6 +1,7 @@
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
+
 
 android {
     compileSdkVersion 22
@@ -30,17 +31,22 @@ android {
 dependencies {
     dependencies {
         apt 'com.google.dagger:dagger-compiler:2.0'
+        //needed to resolve compilation errors, thanks to tutplus.org for finding the dependency
+        // http://stackoverflow.com/questions/27036933/how-to-set-up-dagger-dependency-injection-from-scratch-in-android-project
+        //test compiles
+        androidTestApt 'com.google.dagger:dagger-compiler:2.0'
+
         compile fileTree(include: ['*.jar'], dir: 'libs')
         compile 'com.android.support:appcompat-v7:22.2.0'
         compile 'com.google.dagger:dagger:2.0'
         provided 'org.glassfish:javax.annotation:10.0-b28'
         compile 'io.reactivex:rxandroid:0.25.0'
         compile 'com.jakewharton:butterknife:7.0.1'
-        //needed to resolve compilation errors, thanks to tutplus.org for finding the dependency
-        // http://stackoverflow.com/questions/27036933/how-to-set-up-dagger-dependency-injection-from-scratch-in-android-project
-        //test compiles
-        androidTestApt 'com.google.dagger:dagger-compiler:2.0'
+
+
         androidTestCompile 'com.google.dagger:dagger:2.0'
+        testCompile 'com.google.dagger:dagger:2.0'
+        testCompile 'junit:junit:4.12'
         androidTestCompile 'com.android.support.test:runner:0.3'
         // Set this dependency to use JUnit 4 rules
         androidTestCompile 'com.android.support.test:rules:0.3'

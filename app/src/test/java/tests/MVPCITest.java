@@ -1,3 +1,6 @@
+package tests;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MVPCITest {
@@ -6,5 +9,4 @@ public class MVPCITest {
     public void trial(){
 
     }
-
 }
