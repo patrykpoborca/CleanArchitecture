@@ -1,11 +1,11 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC.base;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI.base;
 
 import android.os.Bundle;
 
 import io.patrykpoborca.cleanarchitecture.ui.BaseCleanArchitectureActivity;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 
-public abstract class BasePresenterActivityMVPIC<T extends BasePresenterMVPIC> extends BaseCleanArchitectureActivity implements PView{
+public abstract class BasePresenterActivityMVPCI<T extends BasePresenterMVPCI> extends BaseCleanArchitectureActivity implements PView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

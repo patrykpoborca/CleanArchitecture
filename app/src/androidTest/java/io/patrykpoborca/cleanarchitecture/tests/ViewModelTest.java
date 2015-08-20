@@ -90,9 +90,9 @@ public class ViewModelTest {
                     for (int i = 0; i < list.size(); i++) {
                         if (tweetedTweet.contains(list.get(i))) {
                             exists = true;
+                            break;
                         }
                     }
-
                     Assert.assertTrue(exists);
                 });
     }

@@ -35,7 +35,7 @@
             android:text="MVP Activity"/>
 
         <Button
-            android:id="@+id/mvpic_activity"
+            android:id="@+id/mvpci_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

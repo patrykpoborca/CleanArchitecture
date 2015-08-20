@@ -1,4 +1,4 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC.models;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI.models;
 
 /**
  * Created by Patryk on 7/29/2015.

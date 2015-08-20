@@ -48,4 +48,33 @@ public class TestHelper {
 
         return sTestClassInjector;
     }
+
+    public static void waitFor(IWaitingCallback callback){
+        waitFor(10, callback);
+    }
+
+    public static void waitFor(int maxCycles, IWaitingCallback callback){
+        while(true){
+            maxCycles --;
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(callback.checkCondition()){
+                break;
+            }
+            if(maxCycles <= 0){
+                break;
+            }
+        }
+    }
+
+    public static interface IWaitingCallback{
+        /**
+         *
+         * @return true if condition is met, false if we should keep waiting
+         */
+        public boolean checkCondition();
+    }
 }

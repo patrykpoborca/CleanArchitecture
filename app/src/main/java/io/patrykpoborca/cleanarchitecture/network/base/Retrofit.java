@@ -2,10 +2,8 @@ package io.patrykpoborca.cleanarchitecture.network.base;
 
 import java.util.concurrent.TimeUnit;
 
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Patryk on 7/27/2015.

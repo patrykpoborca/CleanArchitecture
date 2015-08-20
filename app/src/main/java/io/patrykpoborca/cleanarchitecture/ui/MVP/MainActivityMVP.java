@@ -1,5 +1,7 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -162,11 +164,6 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     }
 
     @Override
-    public void toggleProgressbar(boolean show) {
-        Utility.toggleProgressbar(this, show);
-    }
-
-    @Override
     public void toggleLoginContainer(boolean b) {
         container.setVisibility(b ? View.VISIBLE : View.GONE);
     }
@@ -174,5 +171,9 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Override
     public void displayWebpage(String html) {
         websiteText.setText(Html.fromHtml(html));
+    }
+
+    public static Intent newInstance(Context context) {
+        return new Intent(context, MainActivityMVP.class);
     }
 }

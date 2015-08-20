@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

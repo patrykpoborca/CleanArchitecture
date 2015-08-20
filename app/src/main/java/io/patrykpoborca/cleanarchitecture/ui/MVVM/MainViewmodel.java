@@ -1,16 +1,14 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVVM;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.ui.MVVM.base.BaseViewModel;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.PublishSubject;
 
 public class MainViewModel extends BaseViewModel{

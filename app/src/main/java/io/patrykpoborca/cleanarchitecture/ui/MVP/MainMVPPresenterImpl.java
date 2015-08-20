@@ -76,7 +76,7 @@ public class MainMVPPresenterImpl implements MainMVPPresenter {
                         mainMVPView.setUserButtonText("Login");
                         mainMVPView.displayToast("User logged out");
                         mainMVPView.toggleLoginContainer(true);
-                        //could implement more literal less reusable methods, such as loggedIn and loggedOut such as in the MVPIC example.
+                        //could implement more literal less reusable methods, such as loggedIn and loggedOut such as in the MVPCI example.
                         //However I wanted to be extremely verbose in the MVP example.
                     });
         }

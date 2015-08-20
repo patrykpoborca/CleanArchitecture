@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import io.patrykpoborca.cleanarchitecture.dagger.interactors.base.BaseInteractor;
 import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import rx.Observable;
 
 /**

@@ -1,5 +1,7 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVVM;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -20,8 +22,9 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.ui.MVVM.base.BaseViewModelActivity;
+import io.patrykpoborca.cleanarchitecture.ui.RouterActivity;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
 
 /**
@@ -172,5 +175,9 @@ public class MainActivityMVVM extends BaseViewModelActivity<MainViewModel> {
             loginButton.setText(R.string.log_user_in);
             container.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static Intent newInstance(Context context) {
+        return new Intent(context, MainActivityMVVM.class);
     }
 }

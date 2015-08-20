@@ -1,8 +1,8 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC.base;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI.base;
 
 import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 
-public class BasePresenterMVPIC<T extends PView> {
+public class BasePresenterMVPCI<T extends PView> {
 
     private T pView;
 

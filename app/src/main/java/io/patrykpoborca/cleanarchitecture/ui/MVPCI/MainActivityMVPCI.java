@@ -1,7 +1,8 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.View;
@@ -21,11 +22,11 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.base.BasePresenterActivityMVPIC;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.interfaces.MainActivityMVPICPview;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.base.BasePresenterActivityMVPCI;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.MainActivityMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.RouterActivity;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
-import rx.internal.util.UtilityFunctions;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -36,7 +37,7 @@ import rx.internal.util.UtilityFunctions;
  * circumvents a lot of unecessary boilerplate.
  *  Model <- Presenter -> View
  */
-public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPresenter> implements MainActivityMVPICPview {
+public class MainActivityMVPCI extends BasePresenterActivityMVPCI<MainMVPCIPresenter> implements MainActivityMVPCIPview {
 
     @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
     @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
@@ -54,7 +55,7 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     @Bind(R.id.help_url) View helpUrl;
 
     @Inject
-    MainMVPICPresenter presenter;
+    MainMVPCIPresenter presenter;
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -66,7 +67,7 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
             else if(view == fetchLastTwoButton){
                 pastTweetContainer.removeAllViews(); //clear container...
                 registerSubscription(
-                        getPresenter().fetchPreviousTweets().subscribe(MainActivityMVPIC.this::displayTweets)
+                        getPresenter().fetchPreviousTweets().subscribe(MainActivityMVPCI.this::displayTweets)
                 );
             }
             else if(view == loginButton){
@@ -83,21 +84,21 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         @Override
         public void onClick(View view) {
             if(view == helpHistory){
-                new AlertDialog.Builder(MainActivityMVPIC.this)
+                new AlertDialog.Builder(MainActivityMVPCI.this)
                         .setMessage(R.string.history_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpUrl){
-                new AlertDialog.Builder(MainActivityMVPIC.this)
+                new AlertDialog.Builder(MainActivityMVPCI.this)
                         .setMessage(R.string.url_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpLogin){
-                new AlertDialog.Builder(MainActivityMVPIC.this)
+                new AlertDialog.Builder(MainActivityMVPCI.this)
                         .setMessage(R.string.login_text)
                         .setPositiveButton("Ok", null)
                         .create()
@@ -118,11 +119,11 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
         this.helpHistory.setOnClickListener(dialogClickListener);
         this.helpLogin.setOnClickListener(dialogClickListener);
         this.helpUrl.setOnClickListener(dialogClickListener);
-        setTitle("MVPIC activity");
+        setTitle("MVPCI activity");
     }
 
     @Override
-    protected MainMVPICPresenter getPresenter() {
+    protected MainMVPCIPresenter getPresenter() {
 
         if(presenter == null){
             DaggerActivityInjectorComponent.builder()
@@ -169,4 +170,7 @@ public class MainActivityMVPIC extends BasePresenterActivityMVPIC<MainMVPICPrese
     }
 
 
+    public static Intent newInstance(Context context) {
+        return new Intent(context, MainActivityMVPCI.class);
+    }
 }

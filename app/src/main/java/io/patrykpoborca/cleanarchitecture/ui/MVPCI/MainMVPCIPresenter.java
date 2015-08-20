@@ -1,4 +1,4 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVPIC;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -6,16 +6,16 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.patrykpoborca.cleanarchitecture.dagger.interactors.NetworkInteractor;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.base.BasePresenterMVPIC;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.interfaces.MainActivityMVPICPview;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.base.BasePresenterMVPCI;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.MainActivityMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Patryk on 7/29/2015.
  */
-public class MainMVPICPresenter extends BasePresenterMVPIC<MainActivityMVPICPview> {
+public class MainMVPCIPresenter extends BasePresenterMVPCI<MainActivityMVPCIPview> {
 
     private static final int TWEET_COUNT = 2;
     private final NetworkInteractor interactor;
@@ -24,7 +24,7 @@ public class MainMVPICPresenter extends BasePresenterMVPIC<MainActivityMVPICPvie
 
 
     @Inject
-    public MainMVPICPresenter(NetworkInteractor interactor) {
+    public MainMVPCIPresenter(NetworkInteractor interactor) {
         this.interactor = interactor;
     }
 

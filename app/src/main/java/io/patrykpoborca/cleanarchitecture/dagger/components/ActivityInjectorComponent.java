@@ -4,7 +4,7 @@ import dagger.Component;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.PresenterModule;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ActivityScope;
 import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVP;
-import io.patrykpoborca.cleanarchitecture.ui.MVPIC.MainActivityMVPIC;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainActivityMVPCI;
 import io.patrykpoborca.cleanarchitecture.ui.MVVM.MainActivityMVVM;
 import io.patrykpoborca.cleanarchitecture.ui.MainActivityStupid;
 
@@ -21,5 +21,5 @@ public interface ActivityInjectorComponent {
 
     void inject(MainActivityMVVM activityMVVM);
 
-    void inject(MainActivityMVPIC activityMVPIC);
+    void inject(MainActivityMVPCI activityMVPCI);
 }
