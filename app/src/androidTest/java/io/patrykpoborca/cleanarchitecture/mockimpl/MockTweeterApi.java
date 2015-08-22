@@ -7,10 +7,11 @@ import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import rx.Observable;
+import rx.Scheduler;
 
 public class MockTweeterApi extends TweeterApi{
-    public MockTweeterApi(Retrofit retrofit, LocalDataCache dataCache) {
-        super(retrofit, dataCache);
+    public MockTweeterApi(Retrofit retrofit, LocalDataCache dataCache, Scheduler mainScheduler) {
+        super(retrofit, dataCache, mainScheduler);
     }
 
     @Override

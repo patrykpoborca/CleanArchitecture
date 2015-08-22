@@ -5,14 +5,15 @@ import java.util.concurrent.TimeUnit;
 import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class MockRetrofit extends Retrofit{
     private static final String MOCK_PARSE = "SomeMockResponse";
     public static final String MOCKED_STRING = "MOCKED PAGE:";
 
-    public MockRetrofit(OKHttp okHttp) {
-        super(okHttp);
+    public MockRetrofit(OKHttp okHttp, Scheduler mainScheduler) {
+        super(okHttp, mainScheduler);
     }
 
     @Override
@@ -22,7 +23,6 @@ public class MockRetrofit extends Retrofit{
 
     @Override
     public Observable<String> fetchSomePage(String url) {
-        return Observable.just("<h2>" + MOCKED_STRING + " " + url + " </h2>")
-                .observeOn(AndroidSchedulers.mainThread());
+        return Observable.just("<h2>" + MOCKED_STRING + " " + url + " </h2>");
     }
 }

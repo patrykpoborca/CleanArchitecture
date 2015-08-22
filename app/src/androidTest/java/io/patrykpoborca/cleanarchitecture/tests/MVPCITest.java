@@ -1,4 +1,4 @@
-package tests;
+package io.patrykpoborca.cleanarchitecture.tests;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,12 +8,12 @@ import org.junit.runners.JUnit4;
 
 import javax.inject.Inject;
 
-import helper.TestHelper;
+import io.patrykpoborca.cleanarchitecture.TestHelper;
+import io.patrykpoborca.cleanarchitecture.mockimpl.MockLocalDataCache;
+import io.patrykpoborca.cleanarchitecture.mockimpl.MockMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.mockimpl.MockOkHTTP;
+import io.patrykpoborca.cleanarchitecture.mockimpl.MockRetrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainMVPCIPresenter;
-import mockimpl.MockLocalDataCache;
-import mockimpl.MockMVPCIPview;
-import mockimpl.MockOkHTTP;
-import mockimpl.MockRetrofit;
 
 @RunWith(JUnit4.class)
 public class MVPCITest {

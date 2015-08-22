@@ -29,6 +29,10 @@ public class NetworkInteractor extends BaseInteractor {
         return tweeterAPI.login(username, password);
     }
 
+    public Observable<Object> logout(){
+        return tweeterAPI.logout();
+    }
+
     public Observable<String> fetchTweet() {
         return tweeterAPI.getTweet();
     }

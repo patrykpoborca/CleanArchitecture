@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.util.Constants;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
 /**
@@ -18,14 +20,16 @@ import rx.schedulers.Schedulers;
  */
 public class TweeterApi {
 
+    private final Scheduler mainScheduler;
     Retrofit retrofit;
     LocalDataCache localDataCache;
     private UserProfile userName;
 
     @Inject
-    public TweeterApi(Retrofit retro, LocalDataCache cache) {
+    public TweeterApi(Retrofit retro, LocalDataCache cache, @Named(Constants.MAIN_THREAD) Scheduler mainScheduler) {
         this.localDataCache = cache;
         this.retrofit = retro;
+        this.mainScheduler = mainScheduler;
     }
 
     public Observable<String> getTweet(){
@@ -42,7 +46,7 @@ public class TweeterApi {
 
                     return tweet;
                 })
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainScheduler);
     }
 
     public Observable<List<String>> fetchXrecents(int count){
@@ -56,7 +60,7 @@ public class TweeterApi {
                     }
                     return tweets;
                 })
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainScheduler);
     }
 
     public Observable<UserProfile> login(String username, String password) {
@@ -64,7 +68,7 @@ public class TweeterApi {
         Observable<UserProfile> observable = Observable.just(new UserProfile(username, password))
                 .subscribeOn(Schedulers.io())
                 .delay(2, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainScheduler);
         
         observable.subscribe(user -> this.userName = user);
         return observable;
@@ -74,10 +78,11 @@ public class TweeterApi {
         userName = null;
         return Observable.just(null)
                 .delay(2, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainScheduler);
     }
 
     public boolean isLoggedIn(){
         return this.userName != null;
     }
+
 }

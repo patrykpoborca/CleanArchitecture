@@ -2,14 +2,17 @@ package helper;
 
 import android.app.Application;
 
+import dagger.DaggerTestClassInjector;
 import dagger.TestClassInjector;
 import dagger.mockmodules.MockLocalModule;
 import dagger.mockmodules.MockNetworkModule;
+import dagger.mockmodules.MockThreadingModule;
 import io.patrykpoborca.cleanarchitecture.dagger.components.ApplicationComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.BaseComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerApplicationComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerBaseComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.ApplicationModule;
+
 
 public class TestHelper {
 
@@ -33,6 +36,7 @@ public class TestHelper {
                     .applicationComponent(getApplicationComponent())
                     .localModule(new MockLocalModule())
                     .networkModule(new MockNetworkModule())
+                    .threadingModule(new MockThreadingModule())
                     .build();
         }
         return sBaseComponent;
@@ -40,9 +44,9 @@ public class TestHelper {
 
     public static TestClassInjector getTestClassInjector(){
         if(sTestClassInjector == null){
-//            sTestClassInjector = DaggerTestClassInjector.builder()
-//                    .baseComponent(getBaseComponent())
-//                    .build();
+            sTestClassInjector = DaggerTestClassInjector.builder()
+                    .baseComponent(getBaseComponent())
+                    .build();
         }
 
         return sTestClassInjector;

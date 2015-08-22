@@ -25,11 +25,9 @@ public class MockLocalDataCache extends LocalDataCache {
 
     @Override
     public Observable<List<String>> fetchRecentTweets() {
-        Log.d("test", "Mock LDC");
         return Observable.just(sPastTweets)
                 .map(arrayList -> {
                     List<String> list = arrayList;
-                    Log.d("test", "Mock LDC mapping");
                     return list;
                 });
     }

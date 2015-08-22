@@ -5,6 +5,7 @@ import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import mockimpl.MockOkHTTP;
 import mockimpl.MockRetrofit;
+import rx.Scheduler;
 
 public class MockNetworkModule extends NetworkModule {
 
@@ -14,7 +15,7 @@ public class MockNetworkModule extends NetworkModule {
     }
 
     @Override
-    protected Retrofit providesRetrofit(OKHttp okHttp) {
-        return new MockRetrofit(okHttp);
+    protected Retrofit providesRetrofit(OKHttp okHttp, Scheduler mainScheduler) {
+        return new MockRetrofit(okHttp, mainScheduler);
     }
 }

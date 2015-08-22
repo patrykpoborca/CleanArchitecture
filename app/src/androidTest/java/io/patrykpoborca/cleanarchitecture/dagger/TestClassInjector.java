@@ -2,6 +2,7 @@ package io.patrykpoborca.cleanarchitecture.dagger;
 
 import dagger.Component;
 import io.patrykpoborca.cleanarchitecture.dagger.mockmodules.MockTestModule;
+import io.patrykpoborca.cleanarchitecture.tests.MVPCITest;
 import io.patrykpoborca.cleanarchitecture.tests.PresenterTestMvp;
 import io.patrykpoborca.cleanarchitecture.tests.ViewModelTest;
 import io.patrykpoborca.cleanarchitecture.dagger.components.BaseComponent;
@@ -14,4 +15,5 @@ public interface TestClassInjector {
 
     void inject(PresenterTestMvp presenterTestMvp);
 
+    void inject(MVPCITest mvpciTest);
 }

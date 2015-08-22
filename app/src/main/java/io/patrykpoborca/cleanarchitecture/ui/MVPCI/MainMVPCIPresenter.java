@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.patrykpoborca.cleanarchitecture.dagger.interactors.NetworkInteractor;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.base.BasePresenterMVPCI;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.MainActivityMVPCIPview;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.util.Constants;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -19,13 +22,15 @@ public class MainMVPCIPresenter extends BasePresenterMVPCI<MainActivityMVPCIPvie
 
     private static final int TWEET_COUNT = 2;
     private final NetworkInteractor interactor;
+    private final Scheduler mainScheduler;
     private boolean loggedIn = false;
     private int tweetsAdded = 0;
 
 
     @Inject
-    public MainMVPCIPresenter(NetworkInteractor interactor) {
+    public MainMVPCIPresenter(NetworkInteractor interactor, @Named(Constants.MAIN_THREAD) Scheduler mainScheduler) {
         this.interactor = interactor;
+        this.mainScheduler = mainScheduler;
     }
 
     @Override
@@ -79,8 +84,8 @@ public class MainMVPCIPresenter extends BasePresenterMVPCI<MainActivityMVPCIPvie
             UserProfile profile = null;
             loggedIn = false;
             //avoid relying on timer task/handler
-            Observable.just(null).delay(2, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
+            interactor.logout()
+                    .observeOn(mainScheduler)
                     .subscribe(s -> {
                         getPView().loggedOut();
                         getPView().toggleProgressBar(false);

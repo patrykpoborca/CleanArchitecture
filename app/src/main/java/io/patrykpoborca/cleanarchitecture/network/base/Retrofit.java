@@ -3,6 +3,7 @@ package io.patrykpoborca.cleanarchitecture.network.base;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 
 /**
@@ -11,8 +12,10 @@ import rx.android.schedulers.AndroidSchedulers;
 public class Retrofit {
 
     protected OKHttp okHttp;
-    public Retrofit(OKHttp okHttp) {
+    private final Scheduler mainScheduler;
+    public Retrofit(OKHttp okHttp, Scheduler mainScheduler) {
         this.okHttp = okHttp;
+        this.mainScheduler = mainScheduler;
     }
 
     public Observable<String> completeRequest(){
@@ -23,6 +26,6 @@ public class Retrofit {
     public Observable<String> fetchSomePage(String url){
         return Observable.just("<h2>" + "Fake response from fake retrofit: " + url + " </h2>")
                 .delay(2, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(mainScheduler);
     }
 }

@@ -1,5 +1,6 @@
 package io.patrykpoborca.cleanarchitecture.dagger.modules;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -7,6 +8,8 @@ import dagger.Provides;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ApplicationScope;
 import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
+import io.patrykpoborca.cleanarchitecture.util.Constants;
+import rx.Scheduler;
 
 /**
  * Created by Patryk on 7/27/2015.
@@ -34,7 +37,7 @@ public class NetworkModule {
 
     @ApplicationScope
     @Provides
-    protected Retrofit providesRetrofit(OKHttp okHttp){
-        return new Retrofit(okHttp);
+    protected Retrofit providesRetrofit(OKHttp okHttp, @Named(Constants.MAIN_THREAD) Scheduler mainThread) {
+        return new Retrofit(okHttp, mainThread);
     }
 }
