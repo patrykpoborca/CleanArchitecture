@@ -33,9 +33,6 @@ public class RouterActivity extends AppCompatActivity {
     @Bind(R.id.mvvm_activity)
     View mvvmActivity;
 
-
-    @Bind(R.id.link)
-    View repoLink;
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -52,19 +49,6 @@ public class RouterActivity extends AppCompatActivity {
             else if(view == mvpActivity){
                 intent = TweeterActivityMVP.newInstance(RouterActivity.this);
             }
-            else if(view == repoLink){
-                try
-                {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/patrykpoborca/CleanArchitecture"));
-                    startActivity(browserIntent);
-
-                }
-                catch (Exception e)
-                {
-                    Log.e(RouterActivity.class.getSimpleName(), "something went wrong", e);
-                    Toast.makeText(RouterActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
-                }
-            }
 
             startActivity(intent);
         }
@@ -80,6 +64,5 @@ public class RouterActivity extends AppCompatActivity {
         mvpciActivity.setOnClickListener(onClickListener);
         mvpActivity.setOnClickListener(onClickListener);
         stupidActivity.setOnClickListener(onClickListener);
-        repoLink.setOnClickListener(onClickListener);
     }
 }

@@ -127,6 +127,7 @@ public class PlainTweeterTest {
     public void testTweets(){
         onView(withId(R.id.current_tweet)).check(matches(withText(R.string.hello_world)));
         onView(withId(R.id.fetch_tweet_button))
+                .perform(scrollTo())
                 .perform(click());
 
         onView(withId(R.id.current_tweet)).check(matches(new TypeSafeMatcher<View>() {

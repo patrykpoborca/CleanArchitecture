@@ -13,7 +13,6 @@ import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.util.Constants;
 import rx.Observable;
 import rx.Scheduler;
-import rx.schedulers.Schedulers;
 
 
 public class TweeterApi {
@@ -64,7 +63,6 @@ public class TweeterApi {
     public Observable<UserProfile> login(String username, String password) {
 
         Observable<UserProfile> observable = Observable.just(new UserProfile(username, password))
-                .subscribeOn(Schedulers.io())
                 .delay(2, TimeUnit.SECONDS)
                 .observeOn(mainScheduler);
         
