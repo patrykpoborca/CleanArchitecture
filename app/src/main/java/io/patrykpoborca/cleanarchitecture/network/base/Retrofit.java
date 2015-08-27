@@ -6,13 +6,10 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
 public class Retrofit {
 
     protected OKHttp okHttp;
-    private final Scheduler mainScheduler;
+    protected final Scheduler mainScheduler;
     public Retrofit(OKHttp okHttp, Scheduler mainScheduler) {
         this.okHttp = okHttp;
         this.mainScheduler = mainScheduler;

@@ -1,4 +1,4 @@
-package io.patrykpoborca.cleanarchitecture.ui;
+package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,18 +22,16 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
-import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.base.BasePresenterActivity;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPView;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPresenter;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
 
-public class MainActivityStupid extends BaseCleanArchitectureActivity {
 
-    private static final int TWEET_COUNT = 2;
+public class TweeterActivityMVP extends BasePresenterActivity<TweeterMVPPresenter> implements TweeterMVPPView {
+
     @Inject
-    TweeterApi tweeterApi;
-
-    @Inject Retrofit retrofit;
+    TweeterMVPPresenter presenter;
 
     @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
     @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
@@ -50,58 +48,21 @@ public class MainActivityStupid extends BaseCleanArchitectureActivity {
     @Bind(R.id.help_login) View helpLogin;
     @Bind(R.id.help_url) View helpUrl;
 
-
-
-    private int tweetsAdded = 0;
-
-    private final View.OnClickListener onClickListener = new View.OnClickListener() {
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-            Utility.toggleProgressbar(MainActivityStupid.this, true);
             if(view == fetchLastTwoButton){
-                registerSubscription(
-                        tweeterApi.fetchXrecents(2)
-                                .subscribe(MainActivityStupid.this::displayPreviousTweets)
-                );
+                getPresenter().fetchPreviousTweets();
             }
             else if(view == fetchTweetButton){
-                registerSubscription(
-                        tweeterApi.getTweet()
-                                .subscribe(s -> {
-                                    currentTweetTextView.setText(s);
-                                    tweetsAdded++;
-                                    if (tweetsAdded > TWEET_COUNT) {
-                                        Toast.makeText(MainActivityStupid.this, "Tweet size exceeded " + TWEET_COUNT, Toast.LENGTH_LONG).show();
-                                    }
-                                    Utility.toggleProgressbar(MainActivityStupid.this, false);
-                                })
-                );
+                getPresenter().fetchCurrentTweet();
             }
             else if(view == loginButton){
-                if(tweeterApi.isLoggedIn()){
-                    registerSubscription(tweeterApi.logout()
-                            .subscribe(s -> {
-                                container.setVisibility(View.VISIBLE);
-                                loginButton.setText(R.string.log_user_in);
-                                Utility.toggleProgressbar(MainActivityStupid.this, false);
-                            }));
-                }
-                else {
-                    registerSubscription(
-                            tweeterApi.login(
-                                    userNameTextView.getText().toString(),
-                                    userPasswordTextView.getText().toString())
-                                    .subscribe(MainActivityStupid.this::userLogin)
-                    );
-                }
+                getPresenter().toggleLogin(userNameTextView.getText().toString(),
+                                    userPasswordTextView.getText().toString());
             }
             else if(view == websiteFetchbutton){
-                retrofit.fetchSomePage(urlText.getText().toString())
-                        .subscribe(s -> {
-                            websiteText.setText(Html.fromHtml(s));
-                            Utility.toggleProgressbar(MainActivityStupid.this, false);
-                        });
+                getPresenter().loadWebPage(urlText.getText().toString());
             }
 
         }
@@ -111,21 +72,21 @@ public class MainActivityStupid extends BaseCleanArchitectureActivity {
         @Override
         public void onClick(View view) {
             if(view == helpHistory){
-                new AlertDialog.Builder(MainActivityStupid.this)
+                new AlertDialog.Builder(TweeterActivityMVP.this)
                         .setMessage(R.string.history_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpUrl){
-                new AlertDialog.Builder(MainActivityStupid.this)
+                new AlertDialog.Builder(TweeterActivityMVP.this)
                         .setMessage(R.string.url_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpLogin){
-                new AlertDialog.Builder(MainActivityStupid.this)
+                new AlertDialog.Builder(TweeterActivityMVP.this)
                         .setMessage(R.string.login_text)
                         .setPositiveButton("Ok", null)
                         .create()
@@ -138,15 +99,7 @@ public class MainActivityStupid extends BaseCleanArchitectureActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        DaggerActivityInjectorComponent.builder()
-                .baseComponent(CleanArchitectureApplication.getBaseComponent())
-                .build()
-                .inject(this);
-
         ButterKnife.bind(this);
-
-        setTitle("Stupid Activity IMPL");
 
         this.fetchLastTwoButton.setOnClickListener(onClickListener);
         this.fetchTweetButton.setOnClickListener(onClickListener);
@@ -155,26 +108,70 @@ public class MainActivityStupid extends BaseCleanArchitectureActivity {
         this.helpHistory.setOnClickListener(dialogClickListener);
         this.helpLogin.setOnClickListener(dialogClickListener);
         this.helpUrl.setOnClickListener(dialogClickListener);
+        setTitle("MVP Activity IMPL");
     }
 
+    @Override
+    protected TweeterMVPPresenter getPresenter() {
+        if(presenter == null){
+
+            DaggerActivityInjectorComponent.builder()
+                    .baseComponent(CleanArchitectureApplication.getBaseComponent())
+                    .build()
+                    .inject(this);
+        }
+
+        return presenter;
+    }
+
+
+
+    @Override
+    public void displayFetchedTweet(String tweet) {
+        currentTweetTextView.setText(tweet);
+    }
+
+    @Override
     public void displayPreviousTweets(List<String> tweets) {
         pastTweetContainer.removeAllViews(); //clear container...
-        Utility.toggleProgressbar(MainActivityStupid.this, false);
         for(int i= 0;  i < tweets.size(); i++){
             TextView text = new TextView(this);
             text.setText(tweets.get(i));
             pastTweetContainer.addView(text);
         }
     }
-    
-    public void userLogin(UserProfile profile){
-        Utility.toggleProgressbar(this, false);
 
-        container.setVisibility(View.GONE);
-        loginButton.setText("Log " + profile.getUserName() + " out");
+    @Override
+    protected void registerViewToPresenter() {
+        getPresenter().registerView(this);
+    }
+
+    @Override
+    public void displayToast(String toast) {
+        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void toggleProgressBar(boolean loading) {
+        Utility.toggleProgressbar(this, loading);
+    }
+
+    @Override
+    public void setUserButtonText(String text) {
+        this.loginButton.setText(text);
+    }
+
+    @Override
+    public void toggleLoginContainer(boolean b) {
+        container.setVisibility(b ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void displayWebpage(String html) {
+        websiteText.setText(Html.fromHtml(html));
     }
 
     public static Intent newInstance(Context context) {
-        return new Intent(context, MainActivityStupid.class);
+        return new Intent(context, TweeterActivityMVP.class);
     }
 }

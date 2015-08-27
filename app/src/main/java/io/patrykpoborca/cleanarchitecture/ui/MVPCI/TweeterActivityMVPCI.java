@@ -1,4 +1,4 @@
-package io.patrykpoborca.cleanarchitecture.ui.MVP;
+package io.patrykpoborca.cleanarchitecture.ui.MVPCI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,18 +22,19 @@ import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.CleanArchitectureApplication;
 import io.patrykpoborca.cleanarchitecture.R;
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerActivityInjectorComponent;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.base.BasePresenterActivity;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPView;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.base.BasePresenterActivityMVPCI;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.TweeterActivityMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.util.Utility;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
-public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> implements MainMVPPView {
 
-    @Inject
-    MainMVPPresenter presenter;
+
+/**
+ * Presenter as a Supervising controller is actually a bridge between observable models and the view, any complex operations are performed within the controller, basic databinding
+ * circumvents a lot of unecessary boilerplate.
+ *  Model <- Presenter -> View
+ */
+public class TweeterActivityMVPCI extends BasePresenterActivityMVPCI<TweeterMVPCIPresenter> implements TweeterActivityMVPCIPview {
 
     @Bind(R.id.fetch_tweet_button) Button fetchTweetButton;
     @Bind(R.id.fetch_last_two_tweets) Button fetchLastTwoButton;
@@ -50,23 +51,29 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
     @Bind(R.id.help_login) View helpLogin;
     @Bind(R.id.help_url) View helpUrl;
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    @Inject
+    TweeterMVPCIPresenter presenter;
+
+    private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(view == fetchLastTwoButton){
-                getPresenter().fetchPreviousTweets();
+            if(view == fetchTweetButton){
+                registerSubscription(
+                        getPresenter().fetchCurrentTweet().subscribe(s -> currentTweetTextView.setText(s)));
             }
-            else if(view == fetchTweetButton){
-                getPresenter().fetchCurrentTweet();
+            else if(view == fetchLastTwoButton){
+                pastTweetContainer.removeAllViews(); //clear container...
+                registerSubscription(
+                        getPresenter().fetchPreviousTweets().subscribe(TweeterActivityMVPCI.this::displayTweets)
+                );
             }
             else if(view == loginButton){
-                getPresenter().toggleLogin(userNameTextView.getText().toString(),
-                                    userPasswordTextView.getText().toString());
+                getPresenter().toggleLogin(userNameTextView.getText().toString(), userPasswordTextView.getText().toString());
             }
             else if(view == websiteFetchbutton){
-                getPresenter().loadWebPage(urlText.getText().toString());
+                registerSubscription(getPresenter().loadWebPage(urlText.getText().toString())
+                        .subscribe(s -> websiteText.setText(Html.fromHtml(s))));
             }
-
         }
     };
 
@@ -74,21 +81,21 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         @Override
         public void onClick(View view) {
             if(view == helpHistory){
-                new AlertDialog.Builder(MainActivityMVP.this)
+                new AlertDialog.Builder(TweeterActivityMVPCI.this)
                         .setMessage(R.string.history_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpUrl){
-                new AlertDialog.Builder(MainActivityMVP.this)
+                new AlertDialog.Builder(TweeterActivityMVPCI.this)
                         .setMessage(R.string.url_text)
                         .setPositiveButton("Ok", null)
                         .create()
                         .show();
             }
             else if(view == helpLogin){
-                new AlertDialog.Builder(MainActivityMVP.this)
+                new AlertDialog.Builder(TweeterActivityMVPCI.this)
                         .setMessage(R.string.login_text)
                         .setPositiveButton("Ok", null)
                         .create()
@@ -102,7 +109,6 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         this.fetchLastTwoButton.setOnClickListener(onClickListener);
         this.fetchTweetButton.setOnClickListener(onClickListener);
         this.loginButton.setOnClickListener(onClickListener);
@@ -110,13 +116,13 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         this.helpHistory.setOnClickListener(dialogClickListener);
         this.helpLogin.setOnClickListener(dialogClickListener);
         this.helpUrl.setOnClickListener(dialogClickListener);
-        setTitle("MVP Activity IMPL");
+        setTitle("MVPCI activity");
     }
 
     @Override
-    protected MainMVPPresenter getPresenter() {
-        if(presenter == null){
+    protected TweeterMVPCIPresenter getPresenter() {
 
+        if(presenter == null){
             DaggerActivityInjectorComponent.builder()
                     .baseComponent(CleanArchitectureApplication.getBaseComponent())
                     .build()
@@ -126,54 +132,42 @@ public class MainActivityMVP extends BasePresenterActivity<MainMVPPresenter> imp
         return presenter;
     }
 
-
-
-    @Override
-    public void displayFetchedTweet(String tweet) {
-        currentTweetTextView.setText(tweet);
-    }
-
-    @Override
-    public void displayPreviousTweets(List<String> tweets) {
-        pastTweetContainer.removeAllViews(); //clear container...
-        for(int i= 0;  i < tweets.size(); i++){
-            TextView text = new TextView(this);
-            text.setText(tweets.get(i));
-            pastTweetContainer.addView(text);
-        }
-    }
-
-    @Override
-    protected void registerViewToPresenter() {
-        getPresenter().registerView(this);
-    }
-
     @Override
     public void displayToast(String toast) {
         Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void toggleProgressBar(boolean loading) {
-        Utility.toggleProgressbar(this, loading);
+    private void displayTweets(List<String> list) {
+        pastTweetContainer.removeAllViews();
+
+        for(int i= 0; i < list.size(); i++){
+            TextView textView = new TextView(this);
+            textView.setText(list.get(i));
+            pastTweetContainer.addView(textView);
+        }
     }
 
     @Override
-    public void setUserButtonText(String text) {
-        this.loginButton.setText(text);
+    public void toggleProgressBar(boolean show) {
+        Utility.toggleProgressbar(this, show);
+    }
+
+
+    @Override
+    public void loggedIn(UserProfile profile) {
+        Toast.makeText(this, (profile.getFormattedCredentials() + " Logged in"), Toast.LENGTH_SHORT).show();
+        loginButton.setText("Log " + profile.getUserName() + " out");
+        container.setVisibility(View.GONE);
     }
 
     @Override
-    public void toggleLoginContainer(boolean b) {
-        container.setVisibility(b ? View.VISIBLE : View.GONE);
+    public void loggedOut() {
+        loginButton.setText(R.string.log_user_in);
+        container.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void displayWebpage(String html) {
-        websiteText.setText(Html.fromHtml(html));
-    }
 
     public static Intent newInstance(Context context) {
-        return new Intent(context, MainActivityMVP.class);
+        return new Intent(context, TweeterActivityMVPCI.class);
     }
 }

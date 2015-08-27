@@ -10,9 +10,7 @@ import dagger.Provides;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ApplicationScope;
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 @Module
 public class LocalModule {
 

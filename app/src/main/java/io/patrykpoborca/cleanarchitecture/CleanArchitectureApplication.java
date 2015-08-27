@@ -8,9 +8,7 @@ import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerApplicationCom
 import io.patrykpoborca.cleanarchitecture.dagger.components.DaggerBaseComponent;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.ApplicationModule;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 public class CleanArchitectureApplication extends Application{
 
     private static BaseComponent sBaseComponent;

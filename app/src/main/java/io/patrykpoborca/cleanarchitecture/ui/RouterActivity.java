@@ -11,9 +11,9 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.patrykpoborca.cleanarchitecture.R;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVP;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainActivityMVPCI;
-import io.patrykpoborca.cleanarchitecture.ui.MVVM.MainActivityMVVM;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.TweeterActivityMVP;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.TweeterActivityMVPCI;
+import io.patrykpoborca.cleanarchitecture.ui.MVVM.TweeterActivityMVVM;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -41,16 +41,16 @@ public class RouterActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = null;
             if(view == stupidActivity){
-                intent = MainActivityStupid.newInstance(RouterActivity.this);
+                intent = PlainTweeterActivity.newInstance(RouterActivity.this);
             }
             else if(view == mvpciActivity){
-                intent = MainActivityMVPCI.newInstance(RouterActivity.this);
+                intent = TweeterActivityMVPCI.newInstance(RouterActivity.this);
             }
             else if(view == mvvmActivity) {
-                intent = MainActivityMVVM.newInstance(RouterActivity.this);
+                intent = TweeterActivityMVVM.newInstance(RouterActivity.this);
             }
             else if(view == mvpActivity){
-                intent = MainActivityMVP.newInstance(RouterActivity.this);
+                intent = TweeterActivityMVP.newInstance(RouterActivity.this);
             }
             else if(view == repoLink){
                 try

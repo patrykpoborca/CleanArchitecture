@@ -1,34 +1,29 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVP;
 
-import java.util.concurrent.TimeUnit;
-
 import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPView;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPView;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPresenter;
 
 /**
  * Created by Patryk on 7/28/2015.
  */
-public class MainMVPPresenterImpl implements MainMVPPresenter {
+public class TweeterMVPPresenterImpl implements TweeterMVPPresenter {
 
     private static final int TWEET_COUNT = 2;
     private final TweeterApi tweeterApi;
     private final Retrofit retrofit;
-    private MainMVPPView mainMVPView;
+    private TweeterMVPPView mainMVPView;
     private int tweetsAdded = 0;
 
 
-    public MainMVPPresenterImpl(TweeterApi tweeterApi, Retrofit retrofit) {
+    public TweeterMVPPresenterImpl(TweeterApi tweeterApi, Retrofit retrofit) {
         this.tweeterApi = tweeterApi;
         this.retrofit = retrofit;
     }
 
     @Override
-    public void registerView(MainMVPPView activity) {
+    public void registerView(TweeterMVPPView activity) {
         this.mainMVPView = activity;
     }
 

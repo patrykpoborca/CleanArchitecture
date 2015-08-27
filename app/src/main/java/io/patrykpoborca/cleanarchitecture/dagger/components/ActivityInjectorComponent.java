@@ -3,10 +3,10 @@ package io.patrykpoborca.cleanarchitecture.dagger.components;
 import dagger.Component;
 import io.patrykpoborca.cleanarchitecture.dagger.modules.PresenterModule;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ActivityScope;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.MainActivityMVP;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainActivityMVPCI;
-import io.patrykpoborca.cleanarchitecture.ui.MVVM.MainActivityMVVM;
-import io.patrykpoborca.cleanarchitecture.ui.MainActivityStupid;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.TweeterActivityMVP;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.TweeterActivityMVPCI;
+import io.patrykpoborca.cleanarchitecture.ui.MVVM.TweeterActivityMVVM;
+import io.patrykpoborca.cleanarchitecture.ui.PlainTweeterActivity;
 
 /**
  * Created by Patryk on 7/28/2015.
@@ -15,11 +15,11 @@ import io.patrykpoborca.cleanarchitecture.ui.MainActivityStupid;
 @Component(dependencies = {BaseComponent.class}, modules = PresenterModule.class)
 public interface ActivityInjectorComponent {
 
-    void inject(MainActivityStupid activity);
+    void inject(PlainTweeterActivity activity);
 
-    void inject(MainActivityMVP activityMVP);
+    void inject(TweeterActivityMVP activityMVP);
 
-    void inject(MainActivityMVVM activityMVVM);
+    void inject(TweeterActivityMVVM activityMVVM);
 
-    void inject(MainActivityMVPCI activityMVPCI);
+    void inject(TweeterActivityMVPCI activityMVPCI);
 }

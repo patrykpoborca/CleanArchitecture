@@ -7,7 +7,7 @@ import io.patrykpoborca.cleanarchitecture.ui.MVP.base.Interfaces.PView;
 /**
  * Created by Patryk on 7/28/2015.
  */
-public interface MainMVPPView extends PView {
+public interface TweeterMVPPView extends PView {
     public void displayFetchedTweet(String tweet);
 
     public void displayPreviousTweets(List<String> list);

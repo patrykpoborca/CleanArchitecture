@@ -1,9 +1,9 @@
 package mockimpl;
 
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.MainActivityMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.TweeterActivityMVPCIPview;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 
-public class MockMVPCIPview implements MainActivityMVPCIPview {
+public class MockMVPCIPview implements TweeterActivityMVPCIPview {
 
     public UserProfile loggedInProfile;
     public boolean loggedOutCalled = false;

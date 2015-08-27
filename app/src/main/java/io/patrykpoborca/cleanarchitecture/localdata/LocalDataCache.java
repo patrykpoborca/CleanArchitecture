@@ -8,9 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 public class LocalDataCache {
 
     //pretend this is some read/write to disk :)

@@ -7,14 +7,12 @@ import dagger.Provides;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ActivityScope;
 import io.patrykpoborca.cleanarchitecture.localdata.LocalDataCache;
 import io.patrykpoborca.cleanarchitecture.network.TweeterApi;
-import io.patrykpoborca.cleanarchitecture.network.base.OKHttp;
 import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.MainMVPPresenterImpl;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainMVPCIPresenter;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.TweeterMVPPresenterImpl;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPresenter;
 import io.patrykpoborca.cleanarchitecture.util.Constants;
 import mockimpl.MockMVPCIPview;
-import mockimpl.MockMainActivityPview;
+import mockimpl.MockTweeterActivityPview;
 import mockimpl.MockTweeterApi;
 import rx.Scheduler;
 
@@ -23,16 +21,16 @@ public class MockTestModule {
 
     @Provides
     @ActivityScope
-    MainMVPPresenter providesMainPresenter(TweeterApi api, Retrofit retrofit){
-        return new MainMVPPresenterImpl(api, retrofit);
+    TweeterMVPPresenter providesMainPresenter(TweeterApi api, Retrofit retrofit){
+        return new TweeterMVPPresenterImpl(api, retrofit);
     }
 
     @ActivityScope
     @Provides
-    public MockMainActivityPview providesMockMainPview(MainMVPPresenter presenter){
-        MockMainActivityPview mockMainActivityPview = new MockMainActivityPview();
-        presenter.registerView(mockMainActivityPview);
-        return mockMainActivityPview;
+    public MockTweeterActivityPview providesMockMainPview(TweeterMVPPresenter presenter){
+        MockTweeterActivityPview mockTweeterActivityPview = new MockTweeterActivityPview();
+        presenter.registerView(mockTweeterActivityPview);
+        return mockTweeterActivityPview;
     }
 
     @ActivityScope

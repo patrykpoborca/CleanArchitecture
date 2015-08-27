@@ -9,7 +9,7 @@ import org.junit.runners.JUnit4;
 import javax.inject.Inject;
 
 import helper.TestHelper;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainMVPCIPresenter;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.TweeterMVPCIPresenter;
 import mockimpl.MockLocalDataCache;
 import mockimpl.MockMVPCIPview;
 import mockimpl.MockOkHTTP;
@@ -24,7 +24,7 @@ public class MVPCITest {
     private String tweetedTweet;
 
     @Inject
-    MainMVPCIPresenter presenter;
+    TweeterMVPCIPresenter presenter;
 
     @Inject
     MockMVPCIPview pView;

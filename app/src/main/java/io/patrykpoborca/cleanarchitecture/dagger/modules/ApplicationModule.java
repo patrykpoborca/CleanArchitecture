@@ -9,9 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.patrykpoborca.cleanarchitecture.dagger.scopes.ApplicationScope;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 @Module
 public class ApplicationModule {
 

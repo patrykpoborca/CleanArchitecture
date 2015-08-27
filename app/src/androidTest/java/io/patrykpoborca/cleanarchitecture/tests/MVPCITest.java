@@ -13,7 +13,7 @@ import io.patrykpoborca.cleanarchitecture.mockimpl.MockLocalDataCache;
 import io.patrykpoborca.cleanarchitecture.mockimpl.MockMVPCIPview;
 import io.patrykpoborca.cleanarchitecture.mockimpl.MockOkHTTP;
 import io.patrykpoborca.cleanarchitecture.mockimpl.MockRetrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.MainMVPCIPresenter;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.TweeterMVPCIPresenter;
 
 @RunWith(JUnit4.class)
 public class MVPCITest {
@@ -24,7 +24,7 @@ public class MVPCITest {
     private String tweetedTweet;
 
     @Inject
-    MainMVPCIPresenter presenter;
+    TweeterMVPCIPresenter presenter;
 
     @Inject
     MockMVPCIPview pView;

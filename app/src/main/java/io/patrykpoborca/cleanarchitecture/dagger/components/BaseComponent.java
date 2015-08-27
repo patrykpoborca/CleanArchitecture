@@ -14,9 +14,7 @@ import io.patrykpoborca.cleanarchitecture.network.base.Retrofit;
 import io.patrykpoborca.cleanarchitecture.util.Constants;
 import rx.Scheduler;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 
 // AppModule [Application] |AppComponent| <- BaseComponent needs that stuff..
 @ApplicationScope

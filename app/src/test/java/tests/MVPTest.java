@@ -1,39 +1,40 @@
-package io.patrykpoborca.cleanarchitecture.tests;
+package tests;
 
-import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import javax.inject.Inject;
 
-import io.patrykpoborca.cleanarchitecture.TestHelper;
-import io.patrykpoborca.cleanarchitecture.mockimpl.MockLocalDataCache;
-import io.patrykpoborca.cleanarchitecture.mockimpl.MockMainActivityPview;
-import io.patrykpoborca.cleanarchitecture.mockimpl.MockOkHTTP;
-import io.patrykpoborca.cleanarchitecture.mockimpl.MockRetrofit;
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPresenter;
+import helper.TestHelper;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPresenter;
+import mockimpl.MockLocalDataCache;
+import mockimpl.MockOkHTTP;
+import mockimpl.MockRetrofit;
+import mockimpl.MockTweeterActivityPview;
 
-@RunWith(AndroidJUnit4.class)
-public class PresenterTestMvp {
+@RunWith(JUnit4.class)
+public class MVPTest {
 
     private static final String SOME_URL = "SOME_URL";
     private static final String USER_PASSWORD = "USER_PASSWORD";
     private static final String USER_NAME = "USER_NAME";
 
     @Inject
-    MockMainActivityPview pView;
+    MockTweeterActivityPview pView;
 
     @Inject
-    MainMVPPresenter presenter;
+    TweeterMVPPresenter presenter;
 
     @Before
     public void setUp(){
         TestHelper.getTestClassInjector()
                 .inject(this);
+
         Assert.assertTrue(TestHelper.getBaseComponent().getLocalDataCache() instanceof MockLocalDataCache);
         Assert.assertTrue(TestHelper.getBaseComponent().getRetrofit() instanceof MockRetrofit);
         Assert.assertTrue(TestHelper.getBaseComponent().getOkHTTP() instanceof MockOkHTTP);

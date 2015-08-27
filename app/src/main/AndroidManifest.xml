@@ -9,12 +9,12 @@
         android:theme="@style/AppTheme"
         android:name=".CleanArchitectureApplication">
         <activity
-            android:name=".ui.MainActivityStupid"
+            android:name=".ui.PlainTweeterActivity"
             android:label="@string/app_name" >
         </activity>
 
         <activity
-            android:name=".ui.MVP.MainActivityMVP"
+            android:name=".ui.MVP.TweeterActivityMVP"
             android:label="@string/app_name" >
         </activity>
 
@@ -26,9 +26,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.MVPCI.MainActivityMVPCI"/>
+        <activity android:name=".ui.MVPCI.TweeterActivityMVPCI"/>
 
-        <activity android:name=".ui.MVVM.MainActivityMVVM"/>
+        <activity android:name=".ui.MVVM.TweeterActivityMVVM"/>
     </application>
 
 </manifest>

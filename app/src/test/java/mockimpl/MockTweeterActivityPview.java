@@ -1,10 +1,10 @@
-package io.patrykpoborca.cleanarchitecture.mockimpl;
+package mockimpl;
 
 import java.util.List;
 
-import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.MainMVPPView;
+import io.patrykpoborca.cleanarchitecture.ui.MVP.interfaces.TweeterMVPPView;
 
-public class MockMainActivityPview implements MainMVPPView {
+public class MockTweeterActivityPview implements TweeterMVPPView {
 
     public String fetchedTweet = null;
     public List<String> previousTweets = null;

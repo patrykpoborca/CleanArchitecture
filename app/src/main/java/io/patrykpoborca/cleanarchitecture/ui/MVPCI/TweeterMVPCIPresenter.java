@@ -1,24 +1,22 @@
 package io.patrykpoborca.cleanarchitecture.ui.MVPCI;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.patrykpoborca.cleanarchitecture.dagger.interactors.NetworkInteractor;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.base.BasePresenterMVPCI;
-import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.MainActivityMVPCIPview;
+import io.patrykpoborca.cleanarchitecture.ui.MVPCI.interfaces.TweeterActivityMVPCIPview;
 import io.patrykpoborca.cleanarchitecture.ui.MVPCI.models.UserProfile;
 import io.patrykpoborca.cleanarchitecture.util.Constants;
 import rx.Observable;
 import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Patryk on 7/29/2015.
  */
-public class MainMVPCIPresenter extends BasePresenterMVPCI<MainActivityMVPCIPview> {
+public class TweeterMVPCIPresenter extends BasePresenterMVPCI<TweeterActivityMVPCIPview> {
 
     private static final int TWEET_COUNT = 2;
     private final NetworkInteractor interactor;
@@ -28,7 +26,7 @@ public class MainMVPCIPresenter extends BasePresenterMVPCI<MainActivityMVPCIPvie
 
 
     @Inject
-    public MainMVPCIPresenter(NetworkInteractor interactor, @Named(Constants.MAIN_THREAD) Scheduler mainScheduler) {
+    public TweeterMVPCIPresenter(NetworkInteractor interactor, @Named(Constants.MAIN_THREAD) Scheduler mainScheduler) {
         this.interactor = interactor;
         this.mainScheduler = mainScheduler;
     }

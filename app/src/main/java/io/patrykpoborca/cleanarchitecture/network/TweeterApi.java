@@ -15,12 +15,10 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by Patryk on 7/27/2015.
- */
+
 public class TweeterApi {
 
-    private final Scheduler mainScheduler;
+    protected final Scheduler mainScheduler;
     Retrofit retrofit;
     LocalDataCache localDataCache;
     private UserProfile userName;
@@ -55,7 +53,7 @@ public class TweeterApi {
                 .map(list ->{
                     List<String> tweets = new ArrayList<>(count);
                     int size = list.size() <= count ? list.size() : count;
-                    for(int i=0; i < size; i++){
+                    for(int i=list.size() -1; i >= 0 && size > tweets.size(); i--){
                         tweets.add(list.get(i));
                     }
                     return tweets;

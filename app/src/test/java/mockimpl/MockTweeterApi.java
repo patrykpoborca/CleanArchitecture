@@ -16,11 +16,13 @@ public class MockTweeterApi extends TweeterApi{
 
     @Override
     public Observable<UserProfile> login(String username, String password) {
-        return Observable.just(new UserProfile(username, password));
+        return Observable.just(new UserProfile(username, password))
+                .observeOn(mainScheduler);
     }
 
     @Override
     public Observable<Object> logout() {
-        return Observable.just(null);
+        return Observable.just(null)
+                .observeOn(mainScheduler);
     }
 }

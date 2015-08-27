@@ -17,7 +17,7 @@ import io.patrykpoborca.cleanarchitecture.mockimpl.MockRetrofit;
 import io.patrykpoborca.cleanarchitecture.ui.MVVM.MainViewModel;
 
 @RunWith(AndroidJUnit4.class)
-public class ViewModelTest {
+public class MVVMTest {
 
     private static final String SOME_URL = "SOME_URL";
     private static final String USER_PASSWORD = "USER_PASSWORD";
