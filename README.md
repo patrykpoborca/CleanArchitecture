@@ -12,4 +12,6 @@ I also show how annoying/and or obnoxious it is to test imporoperly architected 
 
 I hope you learn something from this, if you have any questions or issues feel free to start an issue here or [tweet me here](https://twitter.com/patrykpoborca)
 
+Also if you want to see the talk about Dagger 2 I did here [it is](https://www.youtube.com/watch?v=JNbz_rgdQ10)
+
 Thanks!
