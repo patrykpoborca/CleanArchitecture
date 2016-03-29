@@ -11,7 +11,7 @@ import io.patrykpoborca.cleanarchitecture.ui.MVVM.base.BaseViewModel;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
-public class MainViewModel extends BaseViewModel{
+public class MainViewModel extends BaseViewModel {
 
     private static final int TWEET_COUNT = 2;
     private final TweeterApi tweeterApi;

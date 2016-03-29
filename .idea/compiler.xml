@@ -13,14 +13,7 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
-        <option name="shroud" value="" />
-        <processor name="com.patryk.ShroudProcessor" />
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="shrouded" enabled="true">
-        <option name="shroud" value="" />
-        <processor name="com.patryk.ShroudProcessor" />
+      <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
